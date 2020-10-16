@@ -23,15 +23,26 @@ namespace HealthControlling
                     return;
 
                 var oldMax = _max;
+                //Максимальное количество здоровья не может быть меньше нуля, также как и само количество здоровья. 
+                //Если оставить возможность уменьшения макс значения ниже нуля, то в строке 39 в наше количество здоровья запишется отрицательное значение здоровья.
+                //Конечно это не повлияет на исход get-ов IsAlive и IsDead, однако это может в процессе разработки привести к непредвиденным обстоятельствам. 
+                //(Например неверному рассчету дифференциала diff и maxDiff)
                 _max = value;
+                if (_max < 0)
+                    _max = 0;
+
                 var maxDiff = _max - oldMax;
 
                 if (_value > _max)
                 {
                     var oldValue = _value;
-                    _value = _max;
+                    Value = _max;
                     var diff = _value - oldValue;
-                    ValueChangedEvent?.Invoke(_value, diff);
+
+                    //Так же данное изменение (падение значения _value > 0, как следствие изменения Max) можно исправить если присваивать новое значение _max не напрямую в поле _value, а через свойство Value.
+                    //Помимо этого это избавит нас от необходимости дублировать вызов события "изменения значения здоровья" (ValueChangedEvent) в двух различных точках кода.
+
+                    //ValueChangedEvent?.Invoke(_value, diff);
                 }
 
                 MaxChangedEvent?.Invoke(_max, maxDiff);
@@ -80,5 +91,7 @@ namespace HealthControlling
             health.ValueRemove(value);
             return health;
         }
+
+
     }
 }
