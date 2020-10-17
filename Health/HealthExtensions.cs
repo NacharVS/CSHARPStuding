@@ -1,5 +1,6 @@
 ﻿namespace HealthControlling
 {
+    //расширение класса Health
     public static class HealthExtension
     {
         public static (int, int) ValueSet(this Health health, int value)
