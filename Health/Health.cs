@@ -2,30 +2,30 @@
 
 namespace HealthControlling
 {
-    public sealed class Health //Класс не имеет наследников так как имеет модификатор sealed
+    public sealed class Health
     {
-        public delegate void ChangedDelegate(int health, int value); //Объявление делегата
+        public delegate void ChangedDelegate(int health, int value);
 
-        private int _max; //максимальное значение зп
-        private int _value;//значение
+        private int _max;
+        private int _value;
 
-        public Health(int max)//конструктор класса Health
+        public Health(int max)
         {
             Max = max;
         }
 
         public int Max
         {
-            get => _max; // возвращает значение _max
+            get => _max;
             set
             {
-                if (value == _max) //если значение уже равно максимально то выходим из метода 
+                if (value == _max)
                     return;
 
                 var oldMax = _max;
                 _max = value;
                 var maxDiff = _max - oldMax;
-                // Находим разницу между старым максимальным значением и новым максимальным значением
+
                 if (_value > _max)
                 {
                     var oldValue = _value;
@@ -33,54 +33,51 @@ namespace HealthControlling
                     var diff = _value - oldValue;
                     ValueChangedEvent?.Invoke(_value, diff);
                 }
-                //Находим разницу между старым и новым _value и вызваем делегат с проверкой на null если _value больше максимального значения 
 
-                MaxChangedEvent?.Invoke(_max, maxDiff); //вызываем делегат с проверкой на null
+                MaxChangedEvent?.Invoke(_max, maxDiff);
             }
         }
 
         public int Value
         {
-            get => _value; //возращение значение _value
+            get => _value;
             set
             {
-                if (value == _value) //если значение уже равно _value то выходим из метода
+                if (value == _value)
                     return;
 
                 var oldValue = _value;
-                _value = value > Max ? Max : value; //_value будет равнятся Max если значение больше Max в противном случае равняется value
-                if (_value < 0) //_value не может быть отрицательным в противном случае _value равняется 0
+                _value = value > Max ? Max : value;
+                if (_value < 0)
                     _value = 0;
                 var diff = _value - oldValue;
+
                 ValueChangedEvent?.Invoke(_value, diff);
-                //Найдем разницу между новым и старым _value и вызываем делегат с проверкой на null
+
                 if (IsDead)
                     DeathEvent?.Invoke();
-                //Если IsDead true то вызвать делегат с проверкой на null
             }
         }
 
-        //Создаем свойства по умолчанию
         public bool IsAlive => _value > 0;
         public bool IsDead => _value <= 0;
 
-        //Создаем события
+
         public event ChangedDelegate ValueChangedEvent;
         public event ChangedDelegate MaxChangedEvent;
         public event Action DeathEvent;
 
-        //Метод неявное преобразование 
         public static implicit operator int(Health health) => health.Value;
 
-        public static Health operator +(Health health, int value) // перегрузка оператора +
+        public static Health operator +(Health health, int value)
         {
-            health.ValueAdd(value);//Вызываем метод из HealtExtensions и возвращаем  health
+            health.ValueAdd(value);
             return health;
         }
 
-        public static Health operator -(Health health, int value) // перегрузка оператора +
+        public static Health operator -(Health health, int value)
         {
-            health.ValueRemove(value);//Вызываем метод из HealtExtensions и возвращаем  health
+            health.ValueRemove(value);
             return health;
         }
     }
