@@ -9,10 +9,7 @@ namespace HealthControlling
         private int _max;
         private int _value;
 
-        public Health(int max)
-        {
-            Max = max;
-        }
+        
 
         public int Max
         {
