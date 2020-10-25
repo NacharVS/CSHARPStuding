@@ -22,7 +22,8 @@ namespace EffectHealthOxygenControlling
         private double percentEffectHealth = 0;
         private double percentEffectOxygen = 0;
 
-        private Timer Timer;
+        private DateTime start;
+        private int effectTime = 2000;
 
         public void EffectOxygenHunger(Oxygen oxygen, Health health, bool flag)
         {
@@ -49,10 +50,15 @@ namespace EffectHealthOxygenControlling
             if (flag)
             {
                 percentEffectOxygen = -0.1;
+                start = DateTime.Now;
+            }
+            else if((DateTime.Now - start).TotalMilliseconds < effectTime)
+            {
+                percentEffectOxygen = -0.05;
             }
             else
             {
-                percentEffectOxygen = 0.1;
+                percentEffectOxygen = 0.075;
             }
         }
 
