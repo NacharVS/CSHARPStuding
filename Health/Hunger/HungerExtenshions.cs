@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthControlling
 {
-   public static class HungerExtenshions
+    public static class HungerExtenshions
     {
         public static (int, int) ValueSet(this Hunger hunger, int value)
         {
