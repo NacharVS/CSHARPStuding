@@ -35,13 +35,13 @@ namespace HealthControlling
 
                 if (_value > _max)
                 {
-                    var oldValue = _value;
+                    
                     Value = _max;
-                    var diff = _value - oldValue;
 
                     //Так же данное изменение (падение значения _value > 0, как следствие изменения Max) можно исправить если присваивать новое значение _max не напрямую в поле _value, а через свойство Value.
                     //Помимо этого это избавит нас от необходимости дублировать вызов события "изменения значения здоровья" (ValueChangedEvent) в двух различных точках кода.
-
+                    //var oldValue = _value;
+                    //var diff = _value - oldValue;
                     //ValueChangedEvent?.Invoke(_value, diff);
                 }
 

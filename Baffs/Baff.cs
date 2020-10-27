@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthControlling
+namespace Baffs
 {
     //Возможны доработки
     public abstract class Baff

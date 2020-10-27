@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthControlling", "Health\HealthControlling.csproj", "{8CE50E0D-F812-456B-8619-4766FA4053EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthControlling", "Health\HealthControlling.csproj", "{8CE50E0D-F812-456B-8619-4766FA4053EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthControllingTest", "HealthControllingTest\HealthControllingTest.csproj", "{42FFB292-BB8B-43A6-A152-3694124E9F34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthControllingTest", "HealthControllingTest\HealthControllingTest.csproj", "{42FFB292-BB8B-43A6-A152-3694124E9F34}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatietyControlling", "SatietyControl\SatietyControlling.csproj", "{0F7526DA-FE45-4F15-84C8-CF9BF80A167A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baffs", "Baffs\Baffs.csproj", "{8F72A1AA-9890-4E23-B20A-F3ACEF235F3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F7526DA-FE45-4F15-84C8-CF9BF80A167A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7526DA-FE45-4F15-84C8-CF9BF80A167A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7526DA-FE45-4F15-84C8-CF9BF80A167A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7526DA-FE45-4F15-84C8-CF9BF80A167A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F72A1AA-9890-4E23-B20A-F3ACEF235F3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F72A1AA-9890-4E23-B20A-F3ACEF235F3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F72A1AA-9890-4E23-B20A-F3ACEF235F3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F72A1AA-9890-4E23-B20A-F3ACEF235F3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
