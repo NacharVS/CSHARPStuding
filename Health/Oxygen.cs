@@ -1,6 +1,4 @@
-﻿using System;
- 
-namespace OxygenControlling
+﻿namespace HealthControlling
 {
     public sealed class Oxygen
     {

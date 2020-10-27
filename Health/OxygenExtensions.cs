@@ -1,4 +1,4 @@
-﻿namespace OxygenControlling
+﻿namespace HealthControlling
 {
     public static class OxygenExtension
     {

@@ -1,67 +1,72 @@
-﻿using HealthControlling;
-using OxygenControlling;
-using System;
-using System.Data;
-using System.Threading;
+﻿using System;
 
-namespace EffectHealthOxygenControlling
+namespace HealthControlling
 {
+    public enum EOxygenCondition
+    {
+        Normal,
+        Low
+    }
+
     public sealed class EffectHealthOxygen
     {
-        /*Вообще я не считаю что это за код го*** хмммм.....
-         * не очень, но я просто не знаю как это сделать
-         * 
-         * Идея в том что есть функция которая вызывается при каждом изменении и в зависимости от нахождении героя 
-         * или других действий происходит изменение процентов эффектов
-         * 
-         * Таймер не знаю правильно я сделал или нет(, и почему то мне кажется что нет)
-        */
+        private readonly Oxygen _oxygen;
+        private readonly Health _health;
+        private DateTime _lastLowTime;
 
-        public delegate void BaffStatus(Oxygen oxygen, Health health);
-
-        private double percentEffectHealth = 0;
-        private double percentEffectOxygen = 0;
-
-        private DateTime start;
-        private int effectTime = 2000;
-
-        public void EffectOxygenHunger(Oxygen oxygen, Health health, bool flag)
+        public EffectHealthOxygen(Oxygen oxygen, Health health)
         {
-            ChangeProcentDamageHealth(oxygen, health);
-            ChangeProcentDamageOxygen(flag);
-            oxygen += (int)(oxygen.Max * percentEffectOxygen);
-            health += (int)(health * percentEffectHealth);
+            _oxygen = oxygen;
+            _health = health;
         }
 
-        public void ChangeProcentDamageHealth(Oxygen oxygen, Health health)
+        public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
+
+        public void Update(DateTime current, EOxygenCondition condition)
         {
-            if (oxygen < oxygen.Max * 0.2 && oxygen != 0)
-            {
-                percentEffectHealth = 0;
-            }
-            else if (oxygen == 0)
-            {
-                percentEffectHealth = -0.05;
-            }
+            if (_health <= 0)
+                return;
+
+            UpdateOxygen(current, condition);
+            UpdateHealth();
         }
 
-        public void ChangeProcentDamageOxygen(bool flag)
+        private void UpdateOxygen(DateTime current, EOxygenCondition condition)
         {
-            if (flag)
+            var persents = 0.075;
+            if (condition == EOxygenCondition.Low)
             {
-                percentEffectOxygen = -0.1;
-                start = DateTime.Now;
-            }
-            else if((DateTime.Now - start).TotalMilliseconds < effectTime)
-            {
-                percentEffectOxygen = -0.05;
+                persents = -0.1;
+                _lastLowTime = current;
             }
             else
             {
-                percentEffectOxygen = 0.075;
+                var delta = current - _lastLowTime;
+                if (delta <= EffectTime)
+                    persents = -0.05;
             }
+
+            var value = (int) (_oxygen.Max * persents);
+            _oxygen.ValueAdd(value);
         }
 
-        public event BaffStatus OxygenHunger;
+        private void UpdateHealth()
+        {
+            var percents = 0.0;
+
+            if (_oxygen <= 0)
+                percents = -0.05;
+            else
+            {
+                var limit = _oxygen.Max * 0.2;
+                if (_oxygen < limit)
+                    percents = -0.0005;
+                else
+                    return;
+            }
+
+            var value = (int)(_health.Value * percents);
+            _health.ValueAdd(value);
+        }
     }
 }
