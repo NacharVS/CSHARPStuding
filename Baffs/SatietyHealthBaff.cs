@@ -48,19 +48,22 @@ namespace Baffs
                     Deactivate();
                     break;
                 case 1:
-                    _oldMax = _health.Max;
+                    _oldMax = Convert.ToInt32(_health.Max*1 / _valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.9));
                     _valueUpdateCoef=0.9;
+                    _health.Value = (int)_valueUpdateCoef * _health.Value;
                     break;
                 case 2:
-                    _oldMax = _health.Max;
+                    _oldMax = Convert.ToInt32(_health.Max*1/_valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.6));
                     _valueUpdateCoef=0.6;
+                    _health.Value = (int)_valueUpdateCoef * _health.Value;
                     break;
                 case 3:
-                    _oldMax = _health.Max;
+                    _oldMax = Convert.ToInt32(_health.Max*1/_valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.5));
                     _valueUpdateCoef=0.5;
+                    _health.Value = (int)_valueUpdateCoef * _health.Value;
                     break;
                 default:
                     break;
@@ -70,6 +73,7 @@ namespace Baffs
         public override void Deactivate()
         {
             _health.MaxSet(_oldMax);
+            _health.Value = (int)(1 / _valueUpdateCoef) * _health.Value;
             base.Deactivate();
         }
     }
