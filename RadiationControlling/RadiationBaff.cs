@@ -1,11 +1,9 @@
 ﻿using HealthControlling;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RadiationControlling
 {
-    class RadiationBaff
+    public sealed class RadiationBaff
     {
         public delegate void DebuffStatusChange();
 
@@ -74,7 +72,6 @@ namespace RadiationControlling
                     _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
                     break;
             }
-                
         }
 
         public event DebuffStatusChange DebuffActivateEvent;

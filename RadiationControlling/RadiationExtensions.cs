@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RadiationControlling
+﻿namespace RadiationControlling
 {
     public static class RadiationExtensions
     {

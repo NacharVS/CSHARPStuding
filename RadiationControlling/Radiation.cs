@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HealthControlling;
-
-namespace RadiationControlling
+﻿namespace RadiationControlling
 {
-    public class Radiation
+    public sealed class Radiation
     {
         public delegate void ChangedDelegate(int health, int value);
 
