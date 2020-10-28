@@ -23,8 +23,8 @@ namespace HealthControlling
         public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
 
         //Задачи:
-        //доделать апдейт кислорода
-        //сделать метод окончания метода
+        //доделать апдейт кислорода +
+        //сделать метод окончания метода -
 
         public void Update(DateTime current, EOxygenCondition condition)
         {
