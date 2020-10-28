@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace HealthControllingTest
 {
-    public class Tests
+    public class SimpleTest
     {
         [SetUp]
         public void Setup()
@@ -10,7 +10,7 @@ namespace HealthControllingTest
         }
 
         [Test]
-        public void Test1()
+        public void Execute()
         {
             Assert.Pass();
         }
