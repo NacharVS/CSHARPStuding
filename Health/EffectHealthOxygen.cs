@@ -22,6 +22,10 @@ namespace HealthControlling
 
         public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
 
+        //Задачи:
+        //доделать апдейт кислорода
+        //сделать метод окончания метода
+
         public void Update(DateTime current, EOxygenCondition condition)
         {
             if (_health <= 0)
@@ -60,7 +64,9 @@ namespace HealthControlling
             {
                 var limit = _oxygen.Max * 0.2;
                 if (_oxygen < limit)
-                    percents = -0.0005;
+                    percents = -0.01;
+                else if (limit < _oxygen.Max)
+                    percents = 0.05;
                 else
                     return;
             }
