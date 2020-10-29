@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthControlling
+namespace HealthControlling.Hunger
 {
     public static class HungerExtenshions
     {
