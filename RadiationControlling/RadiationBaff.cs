@@ -11,7 +11,6 @@ namespace RadiationControlling
 
         private Health _health;
         private Radiation _radiation;
-        private int _oldMax;
         private double _RateOfChange = 1;
 
         public RadiationBaff(Health health, Radiation radiation)
