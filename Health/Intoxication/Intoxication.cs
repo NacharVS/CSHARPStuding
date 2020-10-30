@@ -3,20 +3,15 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthControlling.Poisoning
+namespace HealthControlling.Intoxication
 {
-    public sealed class Poisoning
+    public sealed class Intoxication
     {
         
-        public delegate void ChangedDelegate(int poison, int value);
+        public delegate void ChangedDelegate(int intoxication, int value);
 
         private int _max;
         private int _value;
-
-        public Poisoning(int max)
-        {
-            Max = max;
-        }
 
         public int Max
         {
@@ -58,26 +53,8 @@ namespace HealthControlling.Poisoning
 
                 ValueChangedEvent?.Invoke(_value, diff);
 
-                if (IsIntoxicated)
-                    HealthFall();
-                
             }
-        }
-        public static void HealthFall()
-        {
-            Health health = new Health();
-            for (int i = 0; i < 10; i++)
-            {
-                
-                if (health.Value < 1)
-                {
-                   DeathEvent?.Invoke();
-                }
-                else
-                health.Value = health.Value - health.Value * 5 / 100;
-
-                Thread.Sleep(2000);
-            }
+        
         }
         public bool IsNotIntoxicated => _value < 0;
         public bool IsIntoxicated => _value >= _max;
@@ -85,20 +62,20 @@ namespace HealthControlling.Poisoning
 
         public event ChangedDelegate ValueChangedEvent;
         public event ChangedDelegate MaxChangedEvent;
-        public static event Action DeathEvent;
 
-        public static implicit operator int(Poisoning poison) => poison.Value;
 
-        public static Poisoning operator +(Poisoning poison, int value)
+        public static implicit operator int(Intoxication intoxication) => intoxication.Value;
+
+        public static Intoxication operator +(Intoxication intoxication, int value)
         {
-            poison.ValueAdd(value);
-            return poison;
+            intoxication.ValueAdd(value);
+            return intoxication;
         }
 
-        public static Poisoning operator -(Poisoning poison, int value)
+        public static Intoxication operator -(Intoxication intoxication, int value)
         {
-            poison.ValueRemove(value);
-            return poison;
+            intoxication.ValueRemove(value);
+            return intoxication;
         }
     }
     
