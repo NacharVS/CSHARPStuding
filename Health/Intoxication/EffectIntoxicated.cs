@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HealthControlling.Intoxication
 {
@@ -10,13 +8,13 @@ namespace HealthControlling.Intoxication
         Low
     }
 
-    public sealed class EffectHealthOxygen
+    public sealed class EffectIntoxicated
     {
         private readonly Intoxication _intoxication;
         private readonly Health _health;
         private DateTime _lastLowTime;
 
-        public EffectHealthOxygen(Intoxication intoxication, Health health)
+        public EffectIntoxicated(Intoxication intoxication, Health health)
         {
             _intoxication = intoxication;
             _health = health;
