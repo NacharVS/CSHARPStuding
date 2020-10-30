@@ -25,6 +25,9 @@ namespace HealthControllingTest
             var dateTime = new DateTime();
             Update(dateTime, EIntoxicationCondition.Low);
 
+            Assert.IsTrue(_health.Max == 100);
+            Assert.IsTrue(_health.Value == 9999);
+
             dateTime += TimeSpan.FromSeconds(1);
             Update(dateTime, EIntoxicationCondition.Low);
 
