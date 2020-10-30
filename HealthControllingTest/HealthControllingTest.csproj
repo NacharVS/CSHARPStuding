@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <StartupObject></StartupObject>
+    <StartupObject>HealthControllingTest.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

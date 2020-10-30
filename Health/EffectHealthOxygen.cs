@@ -20,11 +20,7 @@ namespace HealthControlling
             _health = health;
         }
 
-        public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
-
-        //Задачи:
-        //доделать апдейт кислорода +
-        //сделать метод окончания метода -
+        public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(5);
 
         public void Update(DateTime current, EOxygenCondition condition)
         {
@@ -37,20 +33,21 @@ namespace HealthControlling
 
         private void UpdateOxygen(DateTime current, EOxygenCondition condition)
         {
-            var persents = 0.075;
+            var percents = 0.075;
             if (condition == EOxygenCondition.Low)
             {
-                persents = -0.1;
+                percents = -0.05;
                 _lastLowTime = current;
             }
             else
             {
                 var delta = current - _lastLowTime;
                 if (delta <= EffectTime)
-                    persents = -0.05;
+                    percents = -0.01;
             }
 
-            var value = (int) (_oxygen.Max * persents);
+            Console.Write($"Процент кислорода:{percents} ");
+            var value = (int) (_oxygen.Max * percents);
             _oxygen.ValueAdd(value);
         }
 
@@ -64,14 +61,17 @@ namespace HealthControlling
             {
                 var limit = _oxygen.Max * 0.2;
                 if (_oxygen < limit)
-                    percents = -0.01;
+                    percents = -0.005;
                 else if (limit < _oxygen.Max)
-                    percents = 0.05;
+                    percents = 0;
+                else if (limit == _oxygen.Max)
+                    percents = 0.01;
                 else
                     return;
             }
 
-            var value = (int)(_health.Value * percents);
+            Console.Write($"Процент жизни:{percents}\n");
+            var value = (int)(_health.Max * percents);
             _health.ValueAdd(value);
         }
     }

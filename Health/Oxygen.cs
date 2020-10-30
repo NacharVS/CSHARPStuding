@@ -10,6 +10,7 @@
         public Oxygen(int max)
         {
             Max = max;
+            _value = Max;
         }
 
         public int Max 

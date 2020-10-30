@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using HealthControlling;
 using System;
+using System.Threading;
 
 namespace HealthControllingTest
 {
@@ -15,27 +16,52 @@ namespace HealthControllingTest
         [Test]
         public void Execute()
         {
-            Assert.Pass();
+            /*
+             * Все работает, на столько хорошо, что даже если хп 0, потом он не прибавляет,
+             * типо умер. Хотя я этого не делал. Не знаю даже рабоваться или нет.
+             * 
+             */
+
             var health = new Health(100);
-            var oxygen = new Oxygen(40);
+            var oxygen = new Oxygen(100);
             var effect = new EffectHealthOxygen(oxygen, health);
-
+            ShowValue(oxygen, health, 0);
             var current = new DateTime();
-            effect.Update(current, EOxygenCondition.Normal);
-            ShowValue(oxygen, health);
-
-            current += TimeSpan.FromSeconds(1);
-            effect.Update(current, EOxygenCondition.Low);
-            ShowValue(oxygen, health);
-
-            current += TimeSpan.FromSeconds(3);
-            effect.Update(current, EOxygenCondition.Normal);
-            ShowValue(oxygen, health);
+            for(int i = 1; i < 110; i++)
+            {
+                if(i < 10)
+                {
+                    effect.Update(current, EOxygenCondition.Low);
+                }    
+                else if (i < 20)
+                {
+                    effect.Update(current, EOxygenCondition.Normal);
+                }
+                else if (i < 35)
+                {
+                    effect.Update(current, EOxygenCondition.Low);
+                }
+                else if (i < 60)
+                {
+                    effect.Update(current, EOxygenCondition.Normal);
+                }
+                else if (i < 100)
+                {
+                    effect.Update(current, EOxygenCondition.Low);
+                }
+                else
+                {
+                    effect.Update(current, EOxygenCondition.Normal);
+                }
+                ShowValue(oxygen, health, i);
+                current += TimeSpan.FromSeconds(1);
+                //Thread.Sleep(300);
+            }
         }
-
-        void ShowValue(Oxygen oxygen, Health health)
+        
+        void ShowValue(Oxygen oxygen, Health health, int time)
         {
-            Console.WriteLine($"Кислород: {oxygen.Value}  Здоровье: { health.Value}");
+            Console.WriteLine($"Кислород: {oxygen.Value}  Здоровье: { health.Value} ({time} с.)\n");
         }
     }
 }
