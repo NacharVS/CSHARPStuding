@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IPLN7rXcx2WDCm7MF4nA/Hu3LhQGta81YU54nV4dVvUvHnbILfPcB1zcL3QcKqGneWPKzOT0uO8GZlJhHGTM7g==",
+  "dgSpecHash": "zPvRq2XVpR5/wMqQguhAWY/BMYxmaEpgtzKFlOjukGOmI23seWypGiaAzEpbjSm4PnhNgMP1kWCASdH8hPnBRw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nanan\\Source\\Repos\\NacharVS\\CSHARPStuding\\Baffs\\Baffs.csproj",
+  "projectFilePath": "C:\\Users\\nanan\\source\\repos\\NacharVS\\CSHARPStuding\\CharacteristicControllingSystem\\CharacteristicControllingSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nanan\\.nuget\\packages\\microsoft.codecoverage\\16.5.0\\microsoft.codecoverage.16.5.0.nupkg.sha512",
     "C:\\Users\\nanan\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",

@@ -2,65 +2,62 @@
 using SatietyControlling;
 using System;
 using System.Data;
+using System.Security.Cryptography;
 
-namespace Baffs
+namespace CharacteristicControllingSystem
 {
-    class SatietyHealthBaff : Baff
+    class SatietyHealthControl
     {
         private Health _health;
         private Satiety _satiety;
         private int _oldMax;
         private double _valueUpdateCoef;
-        public SatietyHealthBaff(Satiety satiety, Health health) : base("Satiety", 1, 0)
+        public SatietyHealthControl(Satiety satiety, Health health)
         {
             _health = health;
             _satiety = satiety;
-            _satiety.ValueChangedEvent += Update;
+            _satiety.ValueChangedEvent += UpdateSatiety;
         }
 
 
-        public void Update(int satiety, int value)
+        public void UpdateSatiety(int satiety, int value)
         {
             if (_satiety.Value / _satiety.Max < 60)
             {
-                BaffStrength = 1;
-                Activate();
+                Activate(1);
             }
             else if (_satiety.Value / _satiety.Max < 30)
             {
-                BaffStrength = 2;
-                Activate();
+                Activate(2);
             }
             else if (_satiety.Value / _satiety.Max == 0)
             {
-                BaffStrength = 3;
-                Activate();
+                Activate(3);
             }
             else Deactivate();
             
-            
         }
-        public override void Activate()
+        public void Activate(int _satietyStrength)
         {
-            switch (BaffStrength)
+            switch (_satietyStrength)
             {
                 case 0:
                     Deactivate();
                     break;
                 case 1:
-                    _oldMax = Convert.ToInt32(_health.Max*1 / _valueUpdateCoef);
+                    _oldMax = Convert.ToInt32(_health.Max/ _valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.9));
                     _valueUpdateCoef=0.9;
                     _health.Value = (int)_valueUpdateCoef * _health.Value;
                     break;
                 case 2:
-                    _oldMax = Convert.ToInt32(_health.Max*1/_valueUpdateCoef);
+                    _oldMax = Convert.ToInt32(_health.Max/_valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.6));
                     _valueUpdateCoef=0.6;
                     _health.Value = (int)_valueUpdateCoef * _health.Value;
                     break;
                 case 3:
-                    _oldMax = Convert.ToInt32(_health.Max*1/_valueUpdateCoef);
+                    _oldMax = Convert.ToInt32(_health.Max/_valueUpdateCoef);
                     _health.MaxSet(Convert.ToInt32(_oldMax * 0.5));
                     _valueUpdateCoef=0.5;
                     _health.Value = (int)_valueUpdateCoef * _health.Value;
@@ -68,13 +65,12 @@ namespace Baffs
                 default:
                     break;
             }
-            base.Activate();
+            
         }
-        public override void Deactivate()
+        public void Deactivate()
         {
             _health.MaxSet(_oldMax);
-            _health.Value = (int)(1 / _valueUpdateCoef) * _health.Value;
-            base.Deactivate();
+            _health.Value = (int)(_health.Value/_valueUpdateCoef);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Baffs
     {
         public delegate void BaffStatusChanged();
         private string _baffName;
-        private double _activeTime;
+        private DateTime _lastActivateTime;
+        private TimeSpan _activeTime;
         private int _baffStrength;
 
         public int BaffStrength 
         {
-            
             get => _baffStrength;          
             set => _baffStrength=value;
         }
@@ -23,31 +23,40 @@ namespace Baffs
             get => _baffName;
             set => _baffName = value;
         }
-        public double ActiveTime
+        public TimeSpan ActiveTime
         {
             get=>_activeTime;
             set
             {
                 _activeTime = value;
-                if(_activeTime<=0)
+                
+                if(_activeTime<=new TimeSpan(0))
                 {
                     Deactivate();
                 }        
             }
         }
 
-        public Baff(string name , int strength , double time) 
+        public Baff(string name , int strength , TimeSpan time) 
         {
             _baffName = name;
             _baffStrength = strength;
             _activeTime = time;
-            Activate();
+            Activate(DateTime.Now);
+        }
+
+        public Baff(string name, int strength, TimeSpan time, DateTime current)
+        {
+            _baffName = name;
+            _baffStrength = strength;
+            _activeTime = time;
+            Activate(current);
         }
 
         //Активация баффа
-        public virtual void Activate() 
+        public virtual void Activate(DateTime current) 
         {
-            StartTimer(_activeTime);
+            _lastActivateTime = current;
             OnActivate?.Invoke();
         }
 
@@ -55,28 +64,21 @@ namespace Baffs
         public virtual void Deactivate() 
         {
             _baffStrength = 0;
-            _activeTime = 0;
+            _activeTime = new TimeSpan(0);
             OnDeactivate?.Invoke();
-        }
-        
-        void StartTimer(double time)
-        {
-            //Здесь необходима реализация кода таймера
-            //Есть вариант использовать карутины
-
-            if (time <= 0) 
-            {
-                onTimerEnd();
-            }
         }
 
         //по окончанию таймера выполняется деактивация
-        void onTimerEnd() 
+        void Update(DateTime current)
         {
-            Deactivate();
+            if (_activeTime <= current - _lastActivateTime) Deactivate();
+
+            
         }
 
-        public bool IsActive => _activeTime > 0;
+        
+
+        public bool IsActive => _activeTime > new TimeSpan(0);
 
         //события активации и деактивации бафа
         public event BaffStatusChanged OnActivate;
