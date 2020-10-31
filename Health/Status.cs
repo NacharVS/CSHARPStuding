@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using HealthControlling.IsRadiation;
 
 namespace HealthControlling
@@ -9,10 +7,14 @@ namespace HealthControlling
     {
         // Создал оттдельный класс для проверки (в  теории) статуса всех эфектов которые могут быть наложенны на персонажа
         // Не знаю наскольку это будет лучше чем тупо апдейтить все эфекты каждый frame/tick или как мы это там реализуем
-        // Код сырой, время час ночи, запушил чтобы потом почитать без доступа к компьютеру
+
+        private int _count = 0; // Времено для теста // Параметр для проверки коректности работы StatusUpdate
 
         private readonly Health _health;
-        /*Radiation:*/ public ERadiationLevel RadiationLevel = ERadiationLevel.Normal;  private bool NewRadiation = true;  private RadiationEffect _RadiationEffect;
+        /*Radiation:*/
+        public ERadiationLevel RadiationLevel = ERadiationLevel.Normal;
+        private bool NewRadiation = true;
+        private RadiationEffect _RadiationEffect;
 
         public Status(Health health)
         {
@@ -20,6 +22,7 @@ namespace HealthControlling
         }
         public void StatusUpdate()
         {
+            Console.WriteLine(_count++); // Времено для теста
             if (RadiationLevel != ERadiationLevel.Normal || !NewRadiation) RadiationStatus();
         }
 
@@ -31,14 +34,17 @@ namespace HealthControlling
                 Radiation radiation = new Radiation(100);
                 _RadiationEffect = new RadiationEffect(_health, radiation);
             }
+
+            if (_RadiationEffect.End)
+            {
+                RadiationLevel = ERadiationLevel.Normal; //Это присвоение нужно если хп падает до нуля, но для этого у хп есть свой event который (наверное) будет сам все обрывать 
+                NewRadiation = true;
+                _RadiationEffect.End = false;
+                return;
+            }
             else if (!NewRadiation)
             {
                 _RadiationEffect.RadiationUpdate(RadiationLevel);
-            }
-            if (_RadiationEffect.End)
-            {
-                NewRadiation = true; // К этому моменту RadiationLevel итак будет normal, а изменение данной переменной оборвет вызов даного метода (строчка 19)
-                return;
             }
         }
     }

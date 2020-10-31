@@ -8,55 +8,47 @@ namespace HealthControllingTest
     public class SimpleTests
     {
         private Health _health;
-        //private Radiation _radiation;
-        //private RadiationEffect _effect;
 
         [SetUp]
         public void Setup()
         {
             _health = new Health(100);
-            //_radiation = new Radiation(100);
-            //_effect = new RadiationEffect(_health, _radiation);
         }
         [Test]
         public void Execute()
         {
             Status status = new Status(_health);
+            status.StatusUpdate();
+            status.RadiationLevel = ERadiationLevel.Hight;
+            Console.WriteLine("ERadiationLevel.Hight");
+            for (int i = 0;i < 33;i++)
+            {
+                status.StatusUpdate();
+            }
+
+            Console.WriteLine("Check");
+            status.RadiationLevel = ERadiationLevel.Low; //Chek: He must take old health, but create new radiation and effect
+            Console.WriteLine("ERadiationLevel.Low");
+            for (int i = 0; i< 4;i++)
+            {
+                status.StatusUpdate();
+            }
+
+            Console.WriteLine("Refresh");
+            _health = new Health(200);
+            status = new Status(_health); //Health refresh
             status.RadiationLevel = ERadiationLevel.Low;
-            for (int i = 0;i < 50;i++)
+            Console.WriteLine("ERadiationLevel.Low");
+            for (int i = 0; i < 10; i++)
+            {
+                status.StatusUpdate();
+            }
+            status.RadiationLevel = ERadiationLevel.Normal;
+            Console.WriteLine("ERadiationLevel.Normal");
+            for (int i = 0; i <10; i++)
             {
                 status.StatusUpdate();
             }
         }
-        //[Test]
-        //public void Execute()
-        //{
-        //    //var dateTime = new DateTime();
-        //    for (int i = 0; i < 51; i++)
-        //    {
-        //        Update(/*dateTime,*/ ERadiationLevel.Low);
-        //    }
-
-        //    for (int i = 0; i < 21; i++)
-        //    {
-        //        //dateTime += TimeSpan.FromSeconds(1);
-        //        Update(/*dateTime,*/ ERadiationLevel.Normal);
-        //    }
-
-        //    for (int i = 0; i < 35; i++)
-        //    {
-        //        //dateTime += TimeSpan.FromSeconds(2);
-        //        Update(/*dateTime,*/ ERadiationLevel.Hight);
-        //    }
-        //}
-
-        //private void Update(/*DateTime dateTime,*/ ERadiationLevel condition)
-        //{
-        //    //_effect.RadiationUpdate(/*dateTime,*/ condition);
-
-        //    Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
-        //    Console.WriteLine($"radiation Value:{_radiation.Value} Max:{_radiation.Max} ");
-        //    Console.WriteLine();
-        //}
     }
 }

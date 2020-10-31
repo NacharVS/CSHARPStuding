@@ -23,30 +23,30 @@ namespace HealthControlling.IsRadiation
             _radiation = radiation;
         }
 
-        //public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
-
-        public void RadiationUpdate(/*DateTime current,*/ ERadiationLevel level)
+        public void RadiationUpdate(ERadiationLevel level)
         {
+            UpdateRadiation(level);
+            UpdateHealth();
+
+            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} "); // Времено для теста
+            Console.WriteLine($"radiation Value:{_radiation.Value} Max:{_radiation.Max} "); // Времено для теста
+
             if (_health <= 0)
             {
+                Console.WriteLine("Death"); // Времено для теста // У хп есть свой event для смерти, сдесь это выводиться только на времи проверки кода
                 End = true;
                 return;
             }
 
-            UpdateRadiation(/*current,*/ level);
-            UpdateHealth();
-            
             if (_radiation <= 0)
             {
+                Console.WriteLine("RadZERO"); // Времено для теста // Анологично строчке 36
                 End = true;
                 return;
             }
-
-            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
-            Console.WriteLine($"radiation Value:{_radiation.Value} Max:{_radiation.Max} ");
         }
 
-        private void UpdateRadiation(/*DateTime current,*/ ERadiationLevel level)
+        private void UpdateRadiation(ERadiationLevel level)
         {
             var percents = -0.05;
             if (level == ERadiationLevel.Hight)
