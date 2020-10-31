@@ -1,4 +1,4 @@
-﻿namespace RadiationControlling
+﻿namespace HealthControlling.Radiation
 {
     public static class RadiationExtensions
     {

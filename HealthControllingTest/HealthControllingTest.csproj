@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Health\HealthControlling.csproj" />
-    <ProjectReference Include="..\RadiationControlling\RadiationControlling.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,8 +10,14 @@ namespace HealthControlling
         private int _value;
 
         public Health(int max)
+            : this(max, max)
+        {
+        }
+
+        public Health(int max, int value)
         {
             Max = max;
+            Value = value;
         }
 
         public int Max

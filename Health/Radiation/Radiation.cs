@@ -1,4 +1,4 @@
-﻿namespace RadiationControlling
+﻿namespace HealthControlling.Radiation
 {
     public sealed class Radiation
     {

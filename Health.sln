@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthControlling", "Health
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthControllingTest", "HealthControllingTest\HealthControllingTest.csproj", "{42FFB292-BB8B-43A6-A152-3694124E9F34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiationControlling", "RadiationControlling\RadiationControlling.csproj", "{D4D738EF-5B2D-43FD-97E4-DEF5C9E4B84B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42FFB292-BB8B-43A6-A152-3694124E9F34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4D738EF-5B2D-43FD-97E4-DEF5C9E4B84B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4D738EF-5B2D-43FD-97E4-DEF5C9E4B84B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4D738EF-5B2D-43FD-97E4-DEF5C9E4B84B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4D738EF-5B2D-43FD-97E4-DEF5C9E4B84B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

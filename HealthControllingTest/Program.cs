@@ -4,8 +4,9 @@
     {
         static void Main(string[] args)
         {
-            var test = new Tests();
-            test.Test1();
+            var test = new SimpleTests();
+            test.Setup();
+            test.Execute();
         }
     }
 }
