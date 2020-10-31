@@ -12,6 +12,13 @@ namespace HealthControlling.Intoxication
 
         private int _max;
         private int _value;
+        public EIntoxicationCondition condition = EIntoxicationCondition.Low;
+        public Intoxication(int max, int value)
+        {
+            _max = max;
+            Value = value;
+
+        }
 
         public int Max
         {
@@ -53,6 +60,10 @@ namespace HealthControlling.Intoxication
 
                 ValueChangedEvent?.Invoke(_value, diff);
 
+                if (_value == 0)
+                {
+                    condition = EIntoxicationCondition.Normal;
+                }
             }
         
         }

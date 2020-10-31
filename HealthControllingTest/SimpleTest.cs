@@ -9,38 +9,36 @@ namespace HealthControllingTest
     {
         private Health _health;
         private Intoxication _intoxication;
-        private EffectIntoxicated _effect;
 
         [SetUp]
         public void Setup()
         {
             _health = new Health(100);
-            _intoxication = new Intoxication { Max = 100 };
-            _effect = new EffectIntoxicated(_intoxication, _health);
+            _intoxication = new Intoxication(100, 50);
+
+
         }
 
         [Test]
         public void Execute()
         {
-            var dateTime = new DateTime();
-            Update(dateTime, EIntoxicationCondition.Low);
+            ToxStatus status = new ToxStatus(_health, _intoxication);
+
 
             Assert.IsTrue(_health.Max == 100);
-            Assert.IsTrue(_health.Value == 9999);
 
-            dateTime += TimeSpan.FromSeconds(1);
-            Update(dateTime, EIntoxicationCondition.Low);
 
-            dateTime += TimeSpan.FromSeconds(2);
-            Update(dateTime, EIntoxicationCondition.Low);
+            for (int i = 0; i < 20; i++)
+            {
+                status.IntoxicatedStatus();
+
+            }
+
+
+            //dateTime += TimeSpan.FromSeconds(1);
+            //Update(dateTime, EIntoxicationCondition.Low);
         }
 
-        private void Update(DateTime dateTime, EIntoxicationCondition condition)
-        {
-            _effect.Update(dateTime, condition);
 
-            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
-            Console.WriteLine($"intoxication Value:{_intoxication.Value} Max:{_intoxication.Max} ");
-        }
     }
 }

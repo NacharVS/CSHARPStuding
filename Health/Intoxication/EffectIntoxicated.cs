@@ -12,7 +12,8 @@ namespace HealthControlling.Intoxication
     {
         private readonly Intoxication _intoxication;
         private readonly Health _health;
-        private DateTime _lastLowTime;
+        public bool End;
+
 
         public EffectIntoxicated(Intoxication intoxication, Health health)
         {
@@ -22,31 +23,27 @@ namespace HealthControlling.Intoxication
 
         public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
 
-        public void Update(DateTime current, EIntoxicationCondition condition)
+        public void Update()
         {
             if (_health <= 0)
                 return;
-
-            UpdateIntoxication(current, condition);
+            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
+            Console.WriteLine($"intoxication Value:{_intoxication.Value} Max:{_intoxication.Max} ");
+            UpdateIntoxication();
             UpdateHealth();
         }
 
-        private void UpdateIntoxication(DateTime current, EIntoxicationCondition condition)
+        private void UpdateIntoxication()
         {
-            var persents = 0.05;
-            if (condition == EIntoxicationCondition.Low)
+            var percents = -0.03;
+
+            if (_intoxication.condition == EIntoxicationCondition.Low)
             {
-                persents = 0.1;
-                _lastLowTime = current;
-            }
-            else
-            {
-                var delta = current - _lastLowTime;
-                if (delta <= EffectTime)
-                    persents = 0.05;
+                percents = -0.05;
             }
 
-            var value = (int)(_intoxication.Max * persents);
+
+            var value = (int)(_intoxication.Max * percents);
             _intoxication.ValueAdd(value);
         }
 
@@ -54,13 +51,11 @@ namespace HealthControlling.Intoxication
         {
             var percents = 0.0;
 
-            if (_intoxication <= 0)
-                percents = -0.05;
-            else
+            if (_intoxication > 0)
             {
                 var limit = _intoxication.Max * 0.5;
                 if (_intoxication < limit)
-                    percents = -0.01;
+                    percents = -0.02;
                 else if (limit < _intoxication)
                     percents = -0.05;
                 else
@@ -71,4 +66,32 @@ namespace HealthControlling.Intoxication
             _health.ValueAdd(value);
         }
     }
+    public sealed class ToxStatus
+    {
+            private Health _health;
+            private Intoxication _intoxication;
+
+        public EIntoxicationCondition condition = EIntoxicationCondition.Low;
+        public ToxStatus(Health health, Intoxication intoxication) 
+        {
+            _intoxication = intoxication;
+            _health = health;
+        }
+
+        public void IntoxicatedStatus()
+        {
+
+            if (condition == EIntoxicationCondition.Normal)
+                    return;
+                else
+                {
+
+                Intoxication intoxication = new Intoxication(100, _intoxication.Value);
+                EffectIntoxicated effect = new EffectIntoxicated(intoxication, _health);
+                effect.Update();
+                }
+
+        }
+    }
+    
 }
