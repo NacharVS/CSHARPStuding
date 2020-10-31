@@ -12,7 +12,7 @@ namespace HealthControlling.Intoxication
     {
         private readonly Intoxication _intoxication;
         private readonly Health _health;
-        public bool End;
+        public bool End = false;
 
 
         public EffectIntoxicated(Intoxication intoxication, Health health)
@@ -27,6 +27,10 @@ namespace HealthControlling.Intoxication
         {
             if (_health <= 0)
                 return;
+            if (_intoxication <= 0)
+            {
+                End = true;
+            }
             Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
             Console.WriteLine($"intoxication Value:{_intoxication.Value} Max:{_intoxication.Max} ");
             UpdateIntoxication();
@@ -50,46 +54,57 @@ namespace HealthControlling.Intoxication
         private void UpdateHealth()
         {
             var percents = 0.0;
+            var percentsM = 0.0;
 
             if (_intoxication > 0)
             {
                 var limit = _intoxication.Max * 0.5;
-                if (_intoxication < limit)
-                    percents = -0.02;
+                if (_intoxication <= limit)
+                    percents = -0.03;
                 else if (limit < _intoxication)
+                {
                     percents = -0.05;
+                    percentsM = -0.02;
+                }
+
                 else
                     return;
             }
 
             var value = (int)(_health.Value * percents);
+            var valueM = (int)(_health.Max * percentsM);
+            _health.MaxAdd(valueM);
             _health.ValueAdd(value);
         }
     }
     public sealed class ToxStatus
     {
             private Health _health;
-            private Intoxication _intoxication;
+        private bool NewIntoxication = true;
+        public EffectIntoxicated _effect;
 
         public EIntoxicationCondition condition = EIntoxicationCondition.Low;
-        public ToxStatus(Health health, Intoxication intoxication) 
+        public ToxStatus(Health health) 
         {
-            _intoxication = intoxication;
+
             _health = health;
         }
-
-        public void IntoxicatedStatus()
+        public void IntoxicatedStatus(int value)
         {
 
             if (condition == EIntoxicationCondition.Normal)
                     return;
-                else
-                {
-
-                Intoxication intoxication = new Intoxication(100, _intoxication.Value);
-                EffectIntoxicated effect = new EffectIntoxicated(intoxication, _health);
-                effect.Update();
-                }
+            else if (NewIntoxication)
+            {
+                NewIntoxication = false;
+                Intoxication intoxication = new Intoxication(100, value);
+                 _effect = new EffectIntoxicated(intoxication, _health);
+                _effect.Update();
+            }
+            else if (!NewIntoxication && _effect.End == false)
+            {
+                _effect.Update();
+            }
 
         }
     }
