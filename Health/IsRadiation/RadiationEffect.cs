@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Data;
-
-namespace HealthControlling.Radiation
+namespace HealthControlling.IsRadiation
 {
-    public enum ERadioationLevel
+    public enum ERadiationLevel
     {
         Normal,
         Low,
@@ -17,6 +15,7 @@ namespace HealthControlling.Radiation
         private readonly Radiation _radiation;
         private double _RateOfChange = 1;
         private int _count = 0;
+        public bool End;
 
         public RadiationEffect(Health health, Radiation radiation)
         {
@@ -24,26 +23,37 @@ namespace HealthControlling.Radiation
             _radiation = radiation;
         }
 
-        public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
+        //public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
 
-        public void RadiationUpdate(DateTime current, ERadioationLevel level)
+        public void RadiationUpdate(/*DateTime current,*/ ERadiationLevel level)
         {
             if (_health <= 0)
             {
+                End = true;
                 return;
             }
-            UpdateRadiation(current, level);
+
+            UpdateRadiation(/*current,*/ level);
             UpdateHealth();
+            
+            if (_radiation <= 0)
+            {
+                End = true;
+                return;
+            }
+
+            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
+            Console.WriteLine($"radiation Value:{_radiation.Value} Max:{_radiation.Max} ");
         }
 
-        private void UpdateRadiation(DateTime current, ERadioationLevel level)
+        private void UpdateRadiation(/*DateTime current,*/ ERadiationLevel level)
         {
             var percents = -0.05;
-            if (level == ERadioationLevel.Hight)
+            if (level == ERadiationLevel.Hight)
             {
                 percents = 0.05;
             }
-            else if (level == ERadioationLevel.Low)
+            else if (level == ERadiationLevel.Low)
             {
                 percents = 0.02;
             }
