@@ -22,12 +22,10 @@ namespace HealthControllingTest
         public void Execute()
         {
             ToxStatus status = new ToxStatus(_health);
-
-
             Assert.IsTrue(_health.Max == 100);
 
 
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 50; i++)
             {
                 status.IntoxicatedStatus(_intoxication.Value);
             }
