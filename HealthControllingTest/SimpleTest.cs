@@ -27,7 +27,7 @@ namespace HealthControllingTest
 
             for (int i = 0; i < 50; i++)
             {
-                control.IntoxicatedStatus();
+                control.IntoxicatedUpdate();
             }
 
 

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace HealthControlling.Intoxication
 {
     public class Controller
     {
-        private static Health _health;
-        private static Intoxication _intoxication;
-        private static EffectIntoxicated _effect;
+        private readonly  Health _health;
+        private readonly Intoxication _intoxication;
+        private  EffectIntoxicated _effect;
 
         public Controller(Health health, Intoxication intoxication)
         {
@@ -16,26 +13,27 @@ namespace HealthControlling.Intoxication
             _intoxication = intoxication;
         }
 
-        public void IntoxicatedStatus()
+        public void IntoxicatedUpdate()
         {
             if (_intoxication.IsIntoxicated)
+                Update();
+        }
+
+        public void Update()
+        {
+
+            if (_effect == null)
+            { 
+                _effect = new EffectIntoxicated(_intoxication, _health);
+
+            }
+            else if (_effect.End)
             {
-                if (_effect == null)
-                {
-                    _effect = new EffectIntoxicated(_intoxication, _health);
-
-                }
-                else if (_effect != null && _effect.End != true)
-                {
-                    _effect.Update();
-                }
-
-                else if (_effect.End)
-                {
-                    _intoxication.IsIntoxicated = false;
-                    _effect = null;
-                }
-
+                _effect = null;
+            }
+            else if (_effect != null && !_effect.End)
+            {
+                _effect.Update();
             }
 
         }

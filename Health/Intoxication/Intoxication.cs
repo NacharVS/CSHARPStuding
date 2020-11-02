@@ -7,16 +7,16 @@ namespace HealthControlling.Intoxication
 {
     public sealed class Intoxication
     {
-        
+
         public delegate void ChangedDelegate(int intoxication, int value);
 
         private int _max;
         private int _value;
+
         public Intoxication(int max, int value)
         {
-            Max = max;
-            Value = value;
-
+            _max = max;
+            _value = value;
         }
 
         public int Max
@@ -59,20 +59,12 @@ namespace HealthControlling.Intoxication
 
                 ValueChangedEvent?.Invoke(_value, diff);
 
-                if (_value > 0)
-                {
-                    IsIntoxicated = true;
-                }
-                else if (_value <= 0)
-                {
-                    IsNotIntoxicated = true;
-                }
-
             }
-        
+
         }
-        public bool IsNotIntoxicated { get; set; }
-        public bool IsIntoxicated { get; set; }
+
+        public bool IsNotIntoxicated => _value <= 0;
+        public bool IsIntoxicated => _value > 0;
 
 
 

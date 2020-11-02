@@ -24,6 +24,7 @@ namespace HealthControlling.Intoxication
         {
             if (_health <= 0)
                 return;
+
             if (_intoxication.Value == 0)
             {
                 End = true;
