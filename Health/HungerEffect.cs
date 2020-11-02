@@ -28,7 +28,7 @@ namespace HealthControlling.Hunger
                 return;
 
             UpdateHungry(current, condition);
-
+            UpdateHealth(condition);
         }
 
         private void UpdateHungry(DateTime current, HungryCondition condition)
@@ -36,12 +36,11 @@ namespace HealthControlling.Hunger
             double persents = 1;
             if (condition == HungryCondition.Hungry)
             {
-                persents = -0.1;
                 _lastLowTime = current;
             }
-            else
+            if(condition== HungryCondition.Full)
             {
-                var delta = current - _lastLowTime;
+                TimeSpan delta = current - _lastLowTime;
                 if (delta <= Duration)
                 {
                     persents = -0.05;
@@ -52,20 +51,17 @@ namespace HealthControlling.Hunger
             _hungry.ValueAdd(value);
 
         }
-        private void UpdateHealth()
+        private void UpdateHealth(HungryCondition condition)
         {
             double percents = 0.0;
 
-            if (_hungry <= 0)
+            if (_hungry==0)
                 percents = -0.05;
-            else
+            else if(condition==HungryCondition.Full)
             {
-                var limit = _health.Max * 0.2;
-                if (_health < limit)
-                    percents = -0.01;
-                else if (limit < _hungry.Max)
-                    percents = 0.05;
-                else
+                if (_health < _health.Max)
+                    percents = 0.01;
+                else 
                     return;
             }
 
