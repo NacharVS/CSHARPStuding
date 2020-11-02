@@ -21,13 +21,13 @@ namespace HealthControllingTest
         [Test]
         public void Execute()
         {
-            ToxStatus status = new ToxStatus(_health);
+            Controller control = new Controller(_health, _intoxication);
             Assert.IsTrue(_health.Max == 100);
 
 
             for (int i = 0; i < 50; i++)
             {
-                status.IntoxicatedStatus(_intoxication.Value);
+                control.IntoxicatedStatus();
             }
 
 

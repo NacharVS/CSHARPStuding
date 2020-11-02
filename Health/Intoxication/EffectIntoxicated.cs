@@ -2,18 +2,14 @@
 
 namespace HealthControlling.Intoxication
 {
-    public enum EIntoxicationCondition
-    {
-        Normal,
-        Low
-    }
+
 
     public sealed class EffectIntoxicated
     {
         private readonly Intoxication _intoxication;
         private readonly Health _health;
-       
-        public bool End = false;
+        public bool End { get; private set; }
+
 
 
         public EffectIntoxicated(Intoxication intoxication, Health health)
@@ -28,7 +24,7 @@ namespace HealthControlling.Intoxication
         {
             if (_health <= 0)
                 return;
-            if (_intoxication.condition == EIntoxicationCondition.Normal)
+            if (_intoxication.Value == 0)
             {
                 End = true;
             }
@@ -43,7 +39,7 @@ namespace HealthControlling.Intoxication
         {
             var percents = 0.0;
 
-            if (_intoxication.condition == EIntoxicationCondition.Low)
+            if (_intoxication.IsIntoxicated)
             {
                 percents = -0.05;
             }
@@ -77,34 +73,6 @@ namespace HealthControlling.Intoxication
             var valueM = (int)(_health.Max * percentsM);
             _health.MaxAdd(valueM);
             _health.ValueAdd(value);
-        }
-    }
-    public sealed class ToxStatus
-    {
-        private Health _health;
-        private bool NewIntoxication = true;
-        private EffectIntoxicated _effect;
-        public EIntoxicationCondition condition = EIntoxicationCondition.Low;
-
-        public ToxStatus(Health health) 
-        {
-            _health = health;
-        }
-
-        public void IntoxicatedStatus(int value)
-        {
-
-            if (NewIntoxication)
-            {
-                NewIntoxication = false;
-                Intoxication intoxication = new Intoxication(100, value);
-                 _effect = new EffectIntoxicated(intoxication, _health);
-            }
-            else if (!NewIntoxication && _effect.End == false)
-            {
-                _effect.Update();
-            }
-
         }
     }
     

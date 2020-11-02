@@ -12,10 +12,9 @@ namespace HealthControlling.Intoxication
 
         private int _max;
         private int _value;
-        public EIntoxicationCondition condition = EIntoxicationCondition.Low;
         public Intoxication(int max, int value)
         {
-            _max = max;
+            Max = max;
             Value = value;
 
         }
@@ -60,15 +59,21 @@ namespace HealthControlling.Intoxication
 
                 ValueChangedEvent?.Invoke(_value, diff);
 
-                if (_value == 0)
+                if (_value > 0)
                 {
-                    condition = EIntoxicationCondition.Normal;
+                    IsIntoxicated = true;
                 }
+                else if (_value <= 0)
+                {
+                    IsNotIntoxicated = true;
+                }
+
             }
         
         }
-        public bool IsNotIntoxicated => _value < 0;
-        public bool IsIntoxicated => _value >= _max;
+        public bool IsNotIntoxicated { get; set; }
+        public bool IsIntoxicated { get; set; }
+
 
 
         public event ChangedDelegate ValueChangedEvent;

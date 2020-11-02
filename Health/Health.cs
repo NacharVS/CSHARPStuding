@@ -16,8 +16,8 @@ namespace HealthControlling
 
         public Health(int max, int value)
         {
-            _max = max;
-            _value = value <= max 
+            Max = max;
+            Value = value <= max 
                 ? value 
                 : max;
         }
