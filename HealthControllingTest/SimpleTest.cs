@@ -16,12 +16,6 @@ namespace HealthControllingTest
         [Test]
         public void Execute()
         {
-            /*
-             * Все работает, на столько хорошо, что даже если хп 0, потом он не прибавляет,
-             * типо умер. Хотя я этого не делал. Не знаю даже рабоваться или нет.
-             * 
-             */
-
             var health = new Health(100);
             var oxygen = new Oxygen(100);
             var effect = new EffectHealthOxygen(oxygen, health);
@@ -61,7 +55,7 @@ namespace HealthControllingTest
         
         void ShowValue(Oxygen oxygen, Health health, int time)
         {
-            Console.WriteLine($"Кислород: {oxygen.Value}  Здоровье: { health.Value} ({time} с.)\n");
+            Console.WriteLine($"ГЉГЁГ±Г«Г®Г°Г®Г¤: {oxygen.Value}  Г‡Г¤Г®Г°Г®ГўГјГҐ: { health.Value} ({time} Г±.)\n");
         }
     }
 }
