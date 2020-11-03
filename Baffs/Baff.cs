@@ -10,7 +10,7 @@ namespace Baffs
         public delegate void BaffStatusChanged();
         private string _baffName;
         private DateTime _lastActivateTime;
-        private TimeSpan _activeTime;
+        private TimeSpan _duration;
         private int _baffStrength;
 
         public int BaffStrength 
@@ -23,33 +23,33 @@ namespace Baffs
             get => _baffName;
             set => _baffName = value;
         }
-        public TimeSpan ActiveTime
+        public TimeSpan DurationTime
         {
-            get=>_activeTime;
+            get=>_duration;
             set
             {
-                _activeTime = value;
+                _duration = value;
                 
-                if(_activeTime<=new TimeSpan(0))
+                if(_duration<=new TimeSpan(0))
                 {
                     Deactivate();
                 }        
             }
         }
 
-        public Baff(string name , int strength , TimeSpan time) 
+        public Baff(string name , int strength , TimeSpan duration) 
         {
             _baffName = name;
             _baffStrength = strength;
-            _activeTime = time;
+            this._duration = duration;
             Activate(DateTime.Now);
         }
 
-        public Baff(string name, int strength, TimeSpan time, DateTime current)
+        public Baff(string name, int strength, TimeSpan duration, DateTime current)
         {
             _baffName = name;
             _baffStrength = strength;
-            _activeTime = time;
+            this._duration = duration;
             Activate(current);
         }
 
@@ -64,21 +64,19 @@ namespace Baffs
         public virtual void Deactivate() 
         {
             _baffStrength = 0;
-            _activeTime = new TimeSpan(0);
+            _duration = TimeSpan.FromSeconds(0);
             OnDeactivate?.Invoke();
         }
 
         //по окончанию таймера выполняется деактивация
-        void Update(DateTime current)
+        public virtual void Update(DateTime current)
         {
-            if (_activeTime <= current - _lastActivateTime) Deactivate();
-
-            
+            if (_duration <= current - _lastActivateTime) Deactivate();  
         }
 
         
 
-        public bool IsActive => _activeTime > new TimeSpan(0);
+        public bool IsActive => _duration > new TimeSpan(0);
 
         //события активации и деактивации бафа
         public event BaffStatusChanged OnActivate;

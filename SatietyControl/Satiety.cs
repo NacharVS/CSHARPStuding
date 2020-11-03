@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SatietyControlling
 {
@@ -59,7 +60,7 @@ namespace SatietyControlling
         }
 
 
-        public double ValuePercent => Value / Max;
+        public double ValuePercent => (double) _value / _max;
 
         public event ChangedDelegate ValueChangedEvent;
         public event ChangedDelegate MaxChangedEvent;

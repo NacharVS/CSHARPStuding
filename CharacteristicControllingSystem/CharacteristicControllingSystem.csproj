@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Baffs\Baffs.csproj" />
-    <ProjectReference Include="..\HealthControllingTest\HealthControllingTest.csproj" />
     <ProjectReference Include="..\Health\HealthControlling.csproj" />
     <ProjectReference Include="..\SatietyControl\SatietyControlling.csproj" />
   </ItemGroup>

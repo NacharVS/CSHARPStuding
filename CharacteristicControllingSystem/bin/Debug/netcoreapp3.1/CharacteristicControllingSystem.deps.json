@@ -1,0 +1,62 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "CharacteristicControllingSystem/1.0.0": {
+        "dependencies": {
+          "Baffs": "1.0.0",
+          "HealthControlling": "1.0.0",
+          "SatietyControlling": "1.0.0"
+        },
+        "runtime": {
+          "CharacteristicControllingSystem.dll": {}
+        }
+      },
+      "Baffs/1.0.0": {
+        "dependencies": {
+          "HealthControlling": "1.0.0",
+          "SatietyControlling": "1.0.0"
+        },
+        "runtime": {
+          "Baffs.dll": {}
+        }
+      },
+      "HealthControlling/1.0.0": {
+        "runtime": {
+          "HealthControlling.dll": {}
+        }
+      },
+      "SatietyControlling/1.0.0": {
+        "runtime": {
+          "SatietyControlling.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CharacteristicControllingSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Baffs/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HealthControlling/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SatietyControlling/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

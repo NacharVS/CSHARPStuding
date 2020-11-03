@@ -10,12 +10,10 @@ namespace Baffs
         private int _oldMax;
         private double _valueUpdateCoef;
 
-        public TimeSpan EffectTime { get; set; }
-
-        public HealthBaff(Health health,string name, int strength, int time) : base(name,strength, TimeSpan.FromSeconds(time))
+        public HealthBaff(Health health,string name, int strength, TimeSpan duration) : base(name,strength, duration)
         {
             _health = health;
-            EffectTime = TimeSpan.FromSeconds(time);
+            DurationTime = duration;
         }
 
         //В данном случае бафф временно увеличивает/уменьшает максимальное количество здоровья в зависимости от показателя силы баффа,
@@ -26,7 +24,6 @@ namespace Baffs
             _health.MaxAdd(BaffStrength);
             _valueUpdateCoef = _health.Max / _oldMax;
             _health.Value=(int)_valueUpdateCoef*_health.Value;
-
             base.Activate(current);
         }
 
