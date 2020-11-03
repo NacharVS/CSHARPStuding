@@ -12,8 +12,11 @@ namespace HealthControlling
 
         public Health(int max)//обычный конструктор в котором задается изначальное максимальное хп
         {
-            Max = max;
-            _value = Max;
+            if (max < 0)
+                throw new ArgumentException(nameof(max));
+
+            _max = max;
+            _value = max;
         }
 
         public int Max //свойство переменной Max
