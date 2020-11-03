@@ -34,10 +34,7 @@ namespace HealthControlling
                 _radiationEffect = null;
                 return;
             }
-            else if (_radiationEffect != null)
-            {
                 _radiationEffect.RadiationUpdate(level);
-            }
         }
     }
 }

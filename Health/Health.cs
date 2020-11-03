@@ -16,8 +16,10 @@ namespace HealthControlling
 
         public Health(int max, int value)
         {
-            Max = max;
-            Value = value;
+            _max = max;
+            _value = value <= max
+                ? value
+                : max;
         }
 
         public int Max

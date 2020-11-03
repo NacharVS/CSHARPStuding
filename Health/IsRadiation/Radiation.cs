@@ -8,7 +8,7 @@
         private int _value;
         public Radiation(int max)
         {
-            Max = max;
+            _max = max;
         }
 
         public int Max

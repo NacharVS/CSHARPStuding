@@ -57,14 +57,14 @@ namespace HealthControlling.IsRadiation
             {
                 percents = 0.02;
             }
-            var value = Convert.ToInt32(_radiation.Max * percents);
+            var value = (int)(_radiation.Max * percents);
             _radiation.ValueAdd(value);
         }
 
         private void UpdateHealth()
         {
-            _health.MaxSet(Convert.ToInt32(_health.Max / _RateOfChange)); // Возращает max и value здоровья к изночальным значением, чтобы не стакать дебафы
-            _health.ValueSet(Convert.ToInt32(_health.Value / _RateOfChange));
+            _health.MaxSet((int)(_health.Max / _RateOfChange)); // Возращает max и value здоровья к изночальным значением, чтобы не стакать дебафы
+            _health.ValueSet((int)(_health.Value / _RateOfChange));
             _RateOfChange = 1;
             if (_radiation.Value*100 / _radiation.Max < 25)
             {
@@ -74,33 +74,33 @@ namespace HealthControlling.IsRadiation
             else if (_radiation.Value*100 / _radiation.Max < 50)
             {
                 _RateOfChange = 0.8;
-                _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
-                _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                _health.ValueSet((int)(_health.Value * _RateOfChange));
+                _health.MaxSet((int)(_health.Max * _RateOfChange));
                 ChangeLevelEvent?.Invoke("Low");
             }
             else if (_radiation.Value*100 / _radiation.Max < 75)
             {
                 _RateOfChange = 0.65;
-                _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
-                _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                _health.ValueSet((int)(_health.Value * _RateOfChange));
+                _health.MaxSet((int)(_health.Max * _RateOfChange));
                 ChangeLevelEvent?.Invoke("Medium");
             }
             else if (_radiation.Value*100 / _radiation.Max < 95)
             {
                 _RateOfChange = 0.5;
-                _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
-                _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                _health.ValueSet((int)(_health.Value * _RateOfChange));
+                _health.MaxSet((int)(_health.Max * _RateOfChange));
                 ChangeLevelEvent?.Invoke("Hight");
             }
             else
             {
                 _count += 1; 
                 _RateOfChange = 0.1;
-                _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
-                _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                _health.ValueSet((int)(_health.Value * _RateOfChange));
+                _health.MaxSet((int)(_health.Max * _RateOfChange));
                 if (_count > 3)
                 {
-                        _health.ValueAdd(Convert.ToInt32(_health.Max * -0.1));
+                        _health.ValueAdd((int)(_health.Max * -0.1));
                 }
                 ChangeLevelEvent?.Invoke("Deadly");
             }
