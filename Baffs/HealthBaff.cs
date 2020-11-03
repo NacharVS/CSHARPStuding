@@ -23,7 +23,7 @@ namespace Baffs
             _oldMax = _health.Max;
             _health.MaxAdd(BaffStrength);
             _valueUpdateCoef = _health.Max / _oldMax;
-            _health.Value=(int)_valueUpdateCoef*_health.Value;
+            _health.Value = (int)_valueUpdateCoef * _health.Value;
             base.Activate(current);
         }
 

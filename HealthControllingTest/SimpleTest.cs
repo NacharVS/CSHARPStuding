@@ -18,17 +18,21 @@ namespace HealthControllingTest
         [Test]
         public void Test1()
         {
-            Satiety heroSatiety = new Satiety(100);
-            heroSatiety.Value = 110;
-            Health heroHealth = new Health(100);
-            heroHealth.Value = 110;
-            SatietyHealthControl heroControl = new SatietyHealthControl(heroSatiety, heroHealth);
-            while (heroHealth.IsAlive)
+            var satiety = new Satiety(100);
+            //satiety.Value = 110;
+            //Assert.IsTrue(satiety.Value == 100);
+
+            var health = new Health(100);
+            //health.Value = 110;
+            //Assert.IsTrue(health.Value == 100);
+
+            var control = new SatietyHealthControl(satiety, health);
+            while (health.IsAlive)
             {
-                heroControl.Update();
-                heroSatiety -= 2;
+                control.Update(DateTime.Now);
+                satiety -= 2;
             }
-            Assert.IsTrue(heroHealth == 0 && heroSatiety == 0);
+            Assert.IsTrue(health == 0 && satiety == 0);
         }
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Hunger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Health\HealthControlling.csproj" />
     <ProjectReference Include="..\SatietyControl\SatietyControlling.csproj" />
   </ItemGroup>

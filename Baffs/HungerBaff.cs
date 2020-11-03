@@ -1,19 +1,19 @@
 ﻿using HealthControlling;
 using SatietyControlling;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Baffs
 {
-    public class Hunger:Baff
+    public class HungerBaff : Baff
     {
-        Health _health;
-        Satiety _satiety;
-        public Hunger(Health health) : base("Голод", 1, TimeSpan.FromSeconds(6))
+        private readonly Health _health;
+        private readonly Satiety _satiety;
+
+        public HungerBaff(Health health, Satiety satiety)
+            : base("Голод", 1, TimeSpan.FromSeconds(6))
         {
-            
             _health = health;
+            _satiety = satiety;
         }
 
         public override void Update(DateTime current)
