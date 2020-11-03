@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace HealthControlling.IsRadiation
 {
     public enum ERadiationLevel
@@ -9,18 +10,17 @@ namespace HealthControlling.IsRadiation
     }
     public sealed class RadiationEffect
     {
-        public delegate void DebuffStatusChange();
+        public delegate void DebuffStatusChange(string level);
 
         private readonly Health _health;
-        private readonly Radiation _radiation;
+        private readonly Radiation _radiation = new Radiation(100);
         private double _RateOfChange = 1;
         private int _count = 0;
-        public bool End;
+        public bool End { get; private set; }
 
-        public RadiationEffect(Health health, Radiation radiation)
+        public RadiationEffect(Health health)
         {
             _health = health;
-            _radiation = radiation;
         }
 
         public void RadiationUpdate(ERadiationLevel level)
@@ -33,14 +33,14 @@ namespace HealthControlling.IsRadiation
 
             if (_health <= 0)
             {
-                Console.WriteLine("Death"); // Времено для теста // У хп есть свой event для смерти, сдесь это выводиться только на времи проверки кода
+                Console.WriteLine("Death"); // Времено для теста
                 End = true;
                 return;
             }
 
             if (_radiation <= 0)
             {
-                Console.WriteLine("RadZERO"); // Времено для теста // Анологично строчке 36
+                Console.WriteLine("RadZERO"); // Времено для теста
                 End = true;
                 return;
             }
@@ -69,25 +69,28 @@ namespace HealthControlling.IsRadiation
             if (_radiation.Value*100 / _radiation.Max < 25)
             {
                 _count = 0;
-                DebuffDeacivateEvent?.Invoke();
+                ChangeLevelEvent?.Invoke("Normal");
             }
             else if (_radiation.Value*100 / _radiation.Max < 50)
             {
                 _RateOfChange = 0.8;
                 _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
                 _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                ChangeLevelEvent?.Invoke("Low");
             }
             else if (_radiation.Value*100 / _radiation.Max < 75)
             {
                 _RateOfChange = 0.65;
                 _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
                 _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                ChangeLevelEvent?.Invoke("Medium");
             }
             else if (_radiation.Value*100 / _radiation.Max < 95)
             {
                 _RateOfChange = 0.5;
                 _health.ValueSet(Convert.ToInt32(_health.Value * _RateOfChange));
                 _health.MaxSet(Convert.ToInt32(_health.Max * _RateOfChange));
+                ChangeLevelEvent?.Invoke("Hight");
             }
             else
             {
@@ -99,10 +102,9 @@ namespace HealthControlling.IsRadiation
                 {
                         _health.ValueAdd(Convert.ToInt32(_health.Max * -0.1));
                 }
+                ChangeLevelEvent?.Invoke("Deadly");
             }
         }
-
-        public event DebuffStatusChange DebuffActivateEvent;
-        public event DebuffStatusChange DebuffDeacivateEvent;
+        public event DebuffStatusChange ChangeLevelEvent;
     }
 }
