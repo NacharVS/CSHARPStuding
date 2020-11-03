@@ -12,6 +12,7 @@ namespace HealthControlling
         public Health(int max)//конструктор класса Health
         {
             Max = max;
+            Value = max;
         }
 
         public int Max

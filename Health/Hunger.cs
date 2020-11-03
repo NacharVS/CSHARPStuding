@@ -15,6 +15,7 @@ namespace HealthControlling.Hunger
         public Hunger(int max)
         {
             Max = max;
+            Value = max;
         }
 
         public int Max

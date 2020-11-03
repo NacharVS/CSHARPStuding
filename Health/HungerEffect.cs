@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthControlling.Hunger
 {
-    class HungerEffect
+    public class HungerEffect
     {
         public enum HungryCondition
         {
@@ -33,12 +33,12 @@ namespace HealthControlling.Hunger
 
         private void UpdateHungry(DateTime current, HungryCondition condition)
         {
-            double persents = 1;
+            double persents = 0.0;
             if (condition == HungryCondition.Hungry)
             {
                 _lastLowTime = current;
             }
-            if(condition== HungryCondition.Full)
+            else
             {
                 TimeSpan delta = current - _lastLowTime;
                 if (delta <= Duration)
@@ -46,7 +46,7 @@ namespace HealthControlling.Hunger
                     persents = -0.05;
                 }
             }
-
+            Console.Write($"Процент голода:{persents} ");
             var value = (int)(_hungry.Max * persents);
             _hungry.ValueAdd(value);
 
@@ -55,19 +55,26 @@ namespace HealthControlling.Hunger
         {
             double percents = 0.0;
 
-            if (_hungry==0)
+            if (condition == HungryCondition.Hungry)
                 percents = -0.05;
-            else if(condition==HungryCondition.Full)
+            else if (condition == HungryCondition.Full)
             {
                 if (_health < _health.Max)
                     percents = 0.01;
-                else 
+                else
+                {
+                    Console.Write($"Процент жизни:{percents} \n");
                     return;
+                }
+
+
             }
 
             var value = (int)(_health.Value * percents);
             _health.ValueAdd(value);
         }
+
+
     }
 
 }
