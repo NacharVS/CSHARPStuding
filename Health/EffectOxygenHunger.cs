@@ -8,13 +8,13 @@ namespace HealthControlling
         Low
     }
 
-    public sealed class EffectHealthOxygen
+    public sealed class EffectOxygenHunger
     {
         private readonly Oxygen _oxygen;
         private readonly Health _health;
         private DateTime _lastLowTime;
 
-        public EffectHealthOxygen(Oxygen oxygen, Health health)
+        public EffectOxygenHunger(Oxygen oxygen, Health health)
         {
             _oxygen = oxygen;
             _health = health;
@@ -46,7 +46,7 @@ namespace HealthControlling
                     percents = -0.01;
             }
 
-            Console.Write($"Процент кислорода:{percents} ");
+            Console.Write($"Percents oxygen: {percents} ");
             var value = (int) (_oxygen.Max * percents);
             _oxygen.ValueAdd(value);
         }
@@ -70,7 +70,7 @@ namespace HealthControlling
                     return;
             }
 
-            Console.Write($"Процент жизни:{percents}\n");
+            Console.Write($"Percents health: {percents}\n");
             var value = (int)(_health.Max * percents);
             _health.ValueAdd(value);
         }

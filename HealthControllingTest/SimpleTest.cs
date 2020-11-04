@@ -17,44 +17,47 @@ namespace HealthControllingTest
         {
             var health = new Health(100);
             var oxygen = new Oxygen(100);
-            var effect = new EffectHealthOxygen(oxygen, health);
-            ShowValue(oxygen, health, 0);
+            var controller = new Controller(oxygen, health);
             var current = new DateTime();
+            controller.Update(current);
+            ShowValue(oxygen, health, 0);
+
             for(var i = 1; i < 110; i++)
             {
                 if(i < 10)
                 {
-                    effect.Update(current, EOxygenCondition.Low);
+                    controller.OxygenCondition = EOxygenCondition.Low;
                 }    
                 else if (i < 20)
                 {
-                    effect.Update(current, EOxygenCondition.Normal);
+                    controller.OxygenCondition = EOxygenCondition.Normal;
                 }
                 else if (i < 35)
                 {
-                    effect.Update(current, EOxygenCondition.Low);
+                    controller.OxygenCondition = EOxygenCondition.Low;
                 }
                 else if (i < 60)
                 {
-                    effect.Update(current, EOxygenCondition.Normal);
+                    controller.OxygenCondition = EOxygenCondition.Normal;
                 }
                 else if (i < 100)
                 {
-                    effect.Update(current, EOxygenCondition.Low);
+                    controller.OxygenCondition = EOxygenCondition.Low;
                 }
                 else
                 {
-                    effect.Update(current, EOxygenCondition.Normal);
+                    controller.OxygenCondition = EOxygenCondition.Normal;
                 }
-                ShowValue(oxygen, health, i);
                 current += TimeSpan.FromSeconds(1);
+                controller.Update(current);
+                ShowValue(oxygen, health, i);
                 //Thread.Sleep(300);
             }
         }
         
         private void ShowValue(Oxygen oxygen, Health health, int time)
         {
-            Console.WriteLine($"Кислород: {oxygen.Value}  Здоровье: { health.Value} ({time} с.)\n");
+            Console.WriteLine($"Oxygen: {oxygen.Value}  Health: { health.Value} ({time} s.)\n");
         }
     }
 }
