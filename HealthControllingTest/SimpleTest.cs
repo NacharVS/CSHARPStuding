@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using HealthControlling;
 using System;
-using System.Threading;
 
 namespace HealthControllingTest
 {
@@ -21,7 +20,7 @@ namespace HealthControllingTest
             var effect = new EffectHealthOxygen(oxygen, health);
             ShowValue(oxygen, health, 0);
             var current = new DateTime();
-            for(int i = 1; i < 110; i++)
+            for(var i = 1; i < 110; i++)
             {
                 if(i < 10)
                 {
@@ -53,9 +52,9 @@ namespace HealthControllingTest
             }
         }
         
-        void ShowValue(Oxygen oxygen, Health health, int time)
+        private void ShowValue(Oxygen oxygen, Health health, int time)
         {
-            Console.WriteLine($"Êèñëîðîä: {oxygen.Value}  Çäîðîâüå: { health.Value} ({time} ñ.)\n");
+            Console.WriteLine($"Кислород: {oxygen.Value}  Здоровье: { health.Value} ({time} с.)\n");
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public sealed class Oxygen
     {
-        public delegate void ChangedDelegate(int Oxygen, int value);
+        public delegate void ChangedDelegate(int oxygen, int value);
 
         private int _max;
         private int _value;
