@@ -14,8 +14,11 @@ namespace HealthControlling.Hunger
 
         public Hunger(int max)
         {
-            Max = max;
-            Value = max;
+            if (max < 0)
+                throw new ArgumentException(nameof(max));
+
+            _max = max;
+            _value = max;
         }
 
         public int Max
