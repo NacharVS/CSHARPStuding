@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using HealthControlling.IsRadiation;
 
 namespace HealthControlling
@@ -7,7 +8,7 @@ namespace HealthControlling
     {
         private readonly Health _health;
         /*Radiation:*/
-        public ERadiationLevel RadiationLevel = ERadiationLevel.Normal;
+        public ArrayList RadSourceList = new ArrayList();
         private RadiationEffect _radiationEffect;
 
         public Controller(Health health)
@@ -17,11 +18,11 @@ namespace HealthControlling
         public void Update(DateTime dateTime)
         {
             Console.WriteLine($"Seconds: {dateTime.Second}");
-            if (RadiationLevel != ERadiationLevel.Normal || _radiationEffect != null) 
-                UpdateRadiation(RadiationLevel);
+            if (RadSourceList.Count != 0 || _radiationEffect != null) 
+                UpdateRadiation();
         }
 
-        public void UpdateRadiation(ERadiationLevel level)
+        public void UpdateRadiation()
         {
             if (_radiationEffect == null)
             {
@@ -30,11 +31,11 @@ namespace HealthControlling
 
             if (_radiationEffect.End)
             {
-                RadiationLevel = ERadiationLevel.Normal;
+                RadSourceList = new ArrayList(); // Эта строчка нужна если перс умрет от радиации, наврятли он сможет обнулить радиацию если находиться возле источника радиации... надеюсь
                 _radiationEffect = null;
                 return;
             }
-                _radiationEffect.RadiationUpdate(level);
+                _radiationEffect.EffectUpdate(RadSourceList);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace HealthControlling.IsRadiation
 {
@@ -23,8 +24,9 @@ namespace HealthControlling.IsRadiation
             _health = health;
         }
 
-        public void RadiationUpdate(ERadiationLevel level)
+        public void EffectUpdate(ArrayList Source)
         {
+            ERadiationLevel level = GetLevel(Source);
             UpdateRadiation(level);
             UpdateHealth();
 
@@ -105,6 +107,25 @@ namespace HealthControlling.IsRadiation
                 ChangeLevelEvent?.Invoke("Deadly");
             }
         }
+        
+        private ERadiationLevel GetLevel(ArrayList Source)
+        {
+            ERadiationLevel level = ERadiationLevel.Normal;
+            foreach (IRadiationSource item in Source)
+            {
+                if (item.Level == ERadiationLevel.Hight)
+                {
+                    return ERadiationLevel.Hight;
+                }
+                else if (item.Level == ERadiationLevel.Low)
+                {
+                    if (item.Level == level) return ERadiationLevel.Hight;
+                    level = item.Level;
+                }
+            }
+            return level;
+        }
+
         public event DebuffStatusChange ChangeLevelEvent;
     }
 }
