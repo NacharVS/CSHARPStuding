@@ -41,8 +41,10 @@ namespace HealthControlling.Hunger
         private void UpdateHungry(DateTime current, HungryCondition condition)
         {
             double persents = 0.0;
+
             if (condition == HungryCondition.Hungry)
             {
+<<<<<<< HEAD
                 _lastLowTimeHunger = current;
               
                 TimeSpan deltaFull = _lastLowTimeFull - current ;
@@ -50,12 +52,22 @@ namespace HealthControlling.Hunger
                 {
                     persents = 0.05;
                 }
+=======
+                _lastLowTime = current;
+                persents = 0.05;
+>>>>>>> cfdd6894fcb67f3fc19efbf590c7663c3a8c532e
             }
             else if(condition==HungryCondition.Full )
             {
+<<<<<<< HEAD
                 _lastLowTimeFull = current;
                 TimeSpan deltaHunger = _lastLowTimeHunger - current;
                 if (deltaHunger <= Duration)
+=======
+
+                TimeSpan delta = current - _lastLowTime;
+                if (delta <= Duration)
+>>>>>>> cfdd6894fcb67f3fc19efbf590c7663c3a8c532e
                 {
                     persents = -0.05;
                 }
@@ -63,9 +75,13 @@ namespace HealthControlling.Hunger
             Console.Write($"Procent of Hunger:{persents} ");
             var value = (int)(_hungry.Max * persents);
             _hungry.ValueAdd(value);
-
         }
+<<<<<<< HEAD
         private void UpdateHealth()
+=======
+
+        private void UpdateHealth(HungryCondition condition)
+>>>>>>> cfdd6894fcb67f3fc19efbf590c7663c3a8c532e
         {
             double percents = 0.0;
 
@@ -80,8 +96,6 @@ namespace HealthControlling.Hunger
                     Console.Write($"Procent of Health:{percents} \n");
                     return;
                 }
-
-
             }
 
             int value = (int)(_health.Value * percents);
