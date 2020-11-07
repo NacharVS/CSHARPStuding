@@ -28,13 +28,14 @@ namespace HealthControlling
                 _effectOxygenHunger = new EffectOxygenHunger(_oxygen, _health);
             }
 
-            if (OxygenCondition == EOxygenCondition.Low)
+            if (OxygenCondition == EOxygenCondition.Normal)
             {
-                OxygenCondition = EOxygenCondition.Normal;
                 _effectOxygenHunger = null;
-            } 
-
-            _effectOxygenHunger.Update(current, condition);
+            }
+            else
+            {
+                _effectOxygenHunger.Update(current, condition);
+            }
         }
     }
 }

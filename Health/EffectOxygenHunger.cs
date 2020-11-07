@@ -62,7 +62,7 @@ namespace HealthControlling
             {
                 var limit = _oxygen.Max * 0.2;
                 if (_oxygen < limit)
-                    percents = -0.005;
+                    percents = -0.01;
                 else if (limit <= _oxygen.Max)
                     percents = 0;
                 else if (limit == _oxygen.Max)

@@ -20,8 +20,9 @@ namespace HealthControllingTest
             var controller = new Controller(oxygen, health);
             var current = new DateTime();
             controller.Update(current);
+            controller.OxygenCondition = EOxygenCondition.Normal;
 
-            for(var i = 1; i < 110; i++)
+            for (var i = 1; i < 110; i++)
             {
                 if(i < 10)
                 {
