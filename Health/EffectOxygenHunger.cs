@@ -29,6 +29,7 @@ namespace HealthControlling
 
             UpdateOxygen(current, condition);
             UpdateHealth();
+            ShowValue(_oxygen, _health);
         }
 
         private void UpdateOxygen(DateTime current, EOxygenCondition condition)
@@ -73,6 +74,11 @@ namespace HealthControlling
             Console.Write($"Percents health: {percents}\n");
             var value = (int)(_health.Max * percents);
             _health.ValueAdd(value);
+        }
+
+        private void ShowValue(Oxygen oxygen, Health health)
+        {
+            Console.WriteLine($"Oxygen: {oxygen.Value}  Health: { health.Value}\n");
         }
     }
 }

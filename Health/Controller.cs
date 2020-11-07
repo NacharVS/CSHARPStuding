@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HealthControlling
 {
@@ -34,12 +32,9 @@ namespace HealthControlling
             {
                 OxygenCondition = EOxygenCondition.Normal;
                 _effectOxygenHunger = null;
-                return;
-            }
-            else if (_effectOxygenHunger != null)
-            {
-                _effectOxygenHunger.Update(current, condition);
-            }
+            } 
+
+            _effectOxygenHunger.Update(current, condition);
         }
     }
 }

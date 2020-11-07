@@ -20,7 +20,6 @@ namespace HealthControllingTest
             var controller = new Controller(oxygen, health);
             var current = new DateTime();
             controller.Update(current);
-            ShowValue(oxygen, health, 0);
 
             for(var i = 1; i < 110; i++)
             {
@@ -50,14 +49,8 @@ namespace HealthControllingTest
                 }
                 current += TimeSpan.FromSeconds(1);
                 controller.Update(current);
-                ShowValue(oxygen, health, i);
                 //Thread.Sleep(300);
             }
-        }
-        
-        private void ShowValue(Oxygen oxygen, Health health, int time)
-        {
-            Console.WriteLine($"Oxygen: {oxygen.Value}  Health: { health.Value} ({time} s.)\n");
         }
     }
 }
