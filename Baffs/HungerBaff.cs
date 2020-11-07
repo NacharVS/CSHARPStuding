@@ -1,31 +1,32 @@
 ﻿using HealthControlling;
 using SatietyControlling;
 using System;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Baffs
 {
-    public class HungerBaff : Baff
+    public class HungerBaff
     {
         private readonly Health _health;
         private readonly Satiety _satiety;
-
+        public BaffTimer timer;
         public HungerBaff(Health health, Satiety satiety)
-            : base("Голод", 1, TimeSpan.FromSeconds(6))
         {
             _health = health;
             _satiety = satiety;
+            timer = new BaffTimer(TimeSpan.FromSeconds(5));
         }
 
-        public override void Update(DateTime current)
+        public void Update(DateTime current)
         {
-            if (_satiety.Value != 0)
+            if (_satiety.Value != 0 || timer==null)
             {
-                Deactivate();
                 return;
             }
-
             _health.Value -= 2;
-            base.Update(current);
+            timer.Update(current);
         }
+       
+
     }
 }

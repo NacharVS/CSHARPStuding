@@ -10,7 +10,7 @@ namespace CharacteristicControllingSystem
         private readonly Health _health;
         private readonly Satiety _satiety;
         private int _oldMax;
-        private double _valueUpdateCoef;
+        private double _valueUpdateCoef=1d;
         private HungerBaff _hungerBaff;
 
         public SatietyHealthControl(Satiety satiety, Health health)
@@ -31,43 +31,56 @@ namespace CharacteristicControllingSystem
 
         private void UpdateSatiety(int satiety, int value)
         {
-            if (_satiety.ValuePercent > 60)
+            if (_satiety.ValuePercent > 0.60)
             {
-                if (_valueUpdateCoef != 0)
+                if (_valueUpdateCoef != 1)
                 {
                     _health.MaxSet(_oldMax);
                     _health.Value = (int)(_health.Value / _valueUpdateCoef);
                 }
-                _valueUpdateCoef = 0;
+                _valueUpdateCoef = 1;
                 _oldMax = _health.Max;
                 return;
             }
 
-            _oldMax = _valueUpdateCoef != 0
-                ? (int)(_health.Max / _valueUpdateCoef)
-                : _health.Max;
-
             if (0.60 >= _satiety.ValuePercent && _satiety.ValuePercent > 0.30)
             {
-                _valueUpdateCoef = 0.9f;
+                _health.MaxSet((int)(_oldMax ));
+                _health.Value = (int)(_health.Value / _valueUpdateCoef);
+                _valueUpdateCoef = 0.9d;
             }
             else if (0.30 >= _satiety.ValuePercent && _satiety.ValuePercent > 0)
             {
-                _valueUpdateCoef = 0.6f;
+                _health.MaxSet((int)(_oldMax ));
+                _health.Value = (int)(_health.Value / _valueUpdateCoef);
+                _valueUpdateCoef = 0.6d;
             }
             else if (_satiety.ValuePercent == 0)
             {
-                _valueUpdateCoef = 0.5f;
+                _health.MaxSet((int)(_oldMax ));
+                _health.Value = (int)(_health.Value / _valueUpdateCoef);
+                _valueUpdateCoef = 0.5d;
             }
 
-            _health.MaxSet((int)(_oldMax * _valueUpdateCoef));
-            _health.Value = (int)(_valueUpdateCoef * _health.Value);
 
-            if (_satiety.Value > 0)
-                _hungerBaff = null;
+            _health.Value = (int)(_valueUpdateCoef * _health.Value);
+            _health.MaxSet((int)(_oldMax * _valueUpdateCoef));
+
+
+            if (_satiety.Value > 0 && _hungerBaff != null)
+                DestroyBaff();
             else
             if (_hungerBaff == null)
+            {
                 _hungerBaff = new HungerBaff(_health, _satiety);
+                _hungerBaff.timer.OnTimerStop += DestroyBaff;
+            }
+        }
+        
+        private void DestroyBaff()
+        {
+            _hungerBaff.timer.OnTimerStop -= DestroyBaff;
+            _hungerBaff = null;
         }
     }
 }

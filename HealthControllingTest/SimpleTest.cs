@@ -19,11 +19,11 @@ namespace HealthControllingTest
         public void Test1()
         {
             var satiety = new Satiety(100);
-            //satiety.Value = 110;
+            satiety.Value = 100;
             //Assert.IsTrue(satiety.Value == 100);
 
             var health = new Health(100);
-            //health.Value = 110;
+            health.Value = 100;
             //Assert.IsTrue(health.Value == 100);
 
             var control = new SatietyHealthControl(satiety, health);
@@ -32,7 +32,7 @@ namespace HealthControllingTest
                 control.Update(DateTime.Now);
                 satiety -= 2;
             }
-            Assert.IsTrue(health == 0 && satiety == 0);
+            Assert.IsTrue(health == 0 && satiety <= 0);
         }
     }
 }
