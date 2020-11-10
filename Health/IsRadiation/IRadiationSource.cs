@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthControlling.IsRadiation
+﻿namespace HealthControlling.IsRadiation
 {
     public interface IRadiationSource
     {
-        ERadiationLevel Level { get; }
-        event Action<ERadiationLevel> levelChangedEvent;
+        int Value { get; }
+        bool End { get; }
+
+        int GetValue();
     }
 }

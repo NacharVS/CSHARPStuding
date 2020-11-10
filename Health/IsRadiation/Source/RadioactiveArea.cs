@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HealthControlling.IsRadiation.Source
+﻿namespace HealthControlling.IsRadiation.Source
 {
-    public sealed class RadioactiveArea : IRadiationSource
+    public sealed class RadioactiveArea : IRadiationSource //Радиоктивная зона
     {
-        public ERadiationLevel Level { get; } = ERadiationLevel.Hight;
-        public event Action<ERadiationLevel> levelChangedEvent;
+        public int Value { get; private set; }
+        public bool End { get; }
+
+        public RadioactiveArea(int value)
+        {
+            Value = value;
+        }
+
+        public int GetValue()
+        {
+            return Value;
+        }
     }
 }

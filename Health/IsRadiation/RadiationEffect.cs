@@ -3,12 +3,6 @@ using System.Collections;
 
 namespace HealthControlling.IsRadiation
 {
-    public enum ERadiationLevel
-    {
-        Normal,
-        Low,
-        Hight
-    }
     public sealed class RadiationEffect
     {
         public delegate void DebuffStatusChange(string level);
@@ -26,8 +20,8 @@ namespace HealthControlling.IsRadiation
 
         public void EffectUpdate(ArrayList Source)
         {
-            ERadiationLevel level = GetLevel(Source);
-            UpdateRadiation(level);
+            int value = GetLevel(Source);
+            UpdateRadiation(value);
             UpdateHealth();
 
             Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} "); // Времено для теста
@@ -48,24 +42,15 @@ namespace HealthControlling.IsRadiation
             }
         }
 
-        private void UpdateRadiation(ERadiationLevel level)
+        private void UpdateRadiation(int value)
         {
-            var percents = -0.05;
-            if (level == ERadiationLevel.Hight)
-            {
-                percents = 0.05;
-            }
-            else if (level == ERadiationLevel.Low)
-            {
-                percents = 0.02;
-            }
-            var value = (int)(_radiation.Max * percents);
+            if (value == 0) value = -(_radiation.Max * 5 / 100);
             _radiation.ValueAdd(value);
         }
 
         private void UpdateHealth()
         {
-            _health.MaxSet((int)(_health.Max / _RateOfChange)); // Возращает max и value здоровья к изночальным значением, чтобы не стакать дебафы
+            _health.MaxSet((int)(_health.Max / _RateOfChange));
             _health.ValueSet((int)(_health.Value / _RateOfChange));
             _RateOfChange = 1;
             if (_radiation.Value*100 / _radiation.Max < 25)
@@ -108,22 +93,25 @@ namespace HealthControlling.IsRadiation
             }
         }
         
-        private ERadiationLevel GetLevel(ArrayList Source)
+        private int GetLevel(ArrayList Source)
         {
-            ERadiationLevel level = ERadiationLevel.Normal;
+            ArrayList IndexOfEndsList = new ArrayList();
+            int value = 0;
             foreach (IRadiationSource item in Source)
             {
-                if (item.Level == ERadiationLevel.Hight)
-                {
-                    return ERadiationLevel.Hight;
-                }
-                else if (item.Level == ERadiationLevel.Low)
-                {
-                    if (item.Level == level) return ERadiationLevel.Hight;
-                    level = item.Level;
-                }
+                value += item.GetValue();
+                if (item.End)
+                    IndexOfEndsList.Add(Source.IndexOf(item));
             }
-            return level;
+
+            IndexOfEndsList.Reverse();
+
+            foreach (int item in IndexOfEndsList) //Удоляет все источники действия которых закончилось
+            {
+                Source.RemoveAt(item);
+            }
+
+            return value;
         }
 
         public event DebuffStatusChange ChangeLevelEvent;
