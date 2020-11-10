@@ -3,7 +3,7 @@
     public sealed class RadioactiveArea : IRadiationSource //Радиоктивная зона
     {
         public int Value { get; private set; }
-        public bool End { get; }
+        public bool End { get; set; }
 
         public RadioactiveArea(int value)
         {

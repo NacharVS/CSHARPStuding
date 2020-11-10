@@ -42,8 +42,10 @@ namespace HealthControllingTest
             }
 
             status.RadSourceList.RemoveAt(0);
-            Console.WriteLine("__2__");
-            for (int i = 0; i < 40; i++)
+
+            status.RadSourceList.Add(new RadioactiveArea(3));
+            Console.WriteLine("__2__3__");
+            for (int i = 0; i < 30; i++)
             {
                 curent += TimeSpan.FromSeconds(1);
                 status.Update(curent);
@@ -73,7 +75,7 @@ namespace HealthControllingTest
             status.RadSourceList.RemoveAt(0);
 
             Console.WriteLine("__-5__");
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 16; i++)
             {
                 curent += TimeSpan.FromSeconds(1);
                 status.Update(curent);
@@ -91,7 +93,7 @@ namespace HealthControllingTest
 
             Console.WriteLine("__+2(10)__+4(5)__");
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 19; i++)
             {
                 curent += TimeSpan.FromSeconds(1);
                 status.Update(curent);

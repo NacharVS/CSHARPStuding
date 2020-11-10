@@ -4,6 +4,7 @@
     {
         public int Value { get; private set; }
         public bool End { get; private set; }
+
         private int _time;
 
         public RadioactiveDebuff(int value, int time)

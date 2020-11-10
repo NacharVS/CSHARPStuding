@@ -85,10 +85,7 @@ namespace HealthControlling.IsRadiation
                 _RateOfChange = 0.1;
                 _health.ValueSet((int)(_health.Value * _RateOfChange));
                 _health.MaxSet((int)(_health.Max * _RateOfChange));
-                if (_count > 3)
-                {
-                        _health.ValueAdd((int)(_health.Max * -0.1));
-                }
+                _health.ValueRemove((int)(_health.Max  * _count / 100));
                 ChangeLevelEvent?.Invoke("Deadly");
             }
         }
