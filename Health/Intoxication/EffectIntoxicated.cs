@@ -8,72 +8,73 @@ namespace HealthControlling.Intoxication
     {
         private readonly Intoxication _intoxication;
         private readonly Health _health;
+        private readonly int _oldMax;
+        private readonly Constant _constant = new Constant();
         public bool End { get; private set; }
-
-
 
         public EffectIntoxicated(Intoxication intoxication, Health health)
         {
             _intoxication = intoxication;
             _health = health;
+            _oldMax = _health.Max;
         }
 
         public TimeSpan EffectTime { get; set; } = TimeSpan.FromSeconds(2);
 
         public void Update()
         {
-            if (_health <= 0)
+
+            if (_health.Value <= 0)
                 return;
+
+            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
+            Console.WriteLine($"intoxication Value:{_intoxication.Value} Max:{_intoxication.Max} ");
+            Console.WriteLine();
+
+            UpdateIntoxication();
+            UpdateHealth();
+
 
             if (_intoxication.Value == 0)
             {
                 End = true;
             }
-
-            Console.WriteLine($"health Value:{_health.Value} Max:{_health.Max} ");
-            Console.WriteLine($"intoxication Value:{_intoxication.Value} Max:{_intoxication.Max} ");
-            UpdateIntoxication();
-            UpdateHealth();
         }
-
+        
         private void UpdateIntoxication()
         {
-            var percents = 0.0;
-
             if (_intoxication.IsIntoxicated)
             {
-                percents = -0.05;
+                var value = (int)(_intoxication.Max * _constant.PercentChangeIntocsication);
+                _intoxication.ValueAdd(value);
             }
-
-
-            var value = (int)(_intoxication.Max * percents);
-            _intoxication.ValueAdd(value);
         }
 
         private void UpdateHealth()
         {
-            var percents = 0.0;
-            var percentsM = 0.0;
-
+            int value= 0;
+            int valueM = 0;
             if (_intoxication > 0)
             {
-                var limit = _intoxication.Max * 0.5;
+                var limit = (int)(_intoxication.Max * _constant.PercentForLimitHealth);
+
                 if (_intoxication < limit)
-                    percents = -0.03;
-                else if (limit <= _intoxication)
                 {
-                    percents = -0.05;
-                    percentsM = -0.02;
+                    value = (int)(_health.Value * _constant.MinPercentChangeHealth);
+                }
+                else if (_intoxication >= limit)
+                {
+                    value = (int)(_health.Value * _constant.MaxPercentChangeHealth);
+                    valueM = (int)(_oldMax * _constant.PercentChangeMaxHealth);
                 }
 
-                else
-                    return;
+                if (value <= -1)
+                {
+                    value = _constant.MinPossibleChangeValueHealth;
+                }
+                _health.ValueAdd(value);
+                _health.MaxAdd(valueM);
             }
-
-            var value = (int)(_health.Value * percents);
-            var valueM = (int)(_health.Max * percentsM);
-            _health.MaxAdd(valueM);
-            _health.ValueAdd(value);
         }
     }
     

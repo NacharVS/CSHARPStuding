@@ -27,10 +27,12 @@ namespace HealthControlling.Intoxication
                 _effect = new EffectIntoxicated(_intoxication, _health);
 
             }
+
             else if (_effect.End)
             {
                 _effect = null;
             }
+
             else if (_effect != null && !_effect.End)
             {
                 _effect.Update();
