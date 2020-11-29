@@ -3,6 +3,7 @@ using NUnit.Framework;
 using HealthControlling;
 using HealthControlling.IsRadiation.Source;
 using System.Collections;
+using HealthControlling.IsRadiation;
 
 namespace HealthControllingTest
 {
@@ -10,16 +11,18 @@ namespace HealthControllingTest
     {
         private Health _health;
         private DateTime curent = new DateTime();
+        private RadEffectConstant _radEffectConstant;
 
         [SetUp]
         public void Setup()
         {
             _health = new Health(100);
+            _radEffectConstant = new RadEffectConstant(0.8, 0.65, 0.5, 0.1, 5, 25, 50, 75, 95, 2);
         }
         [Test]
         public void Execute()
         {
-            Controller status = new Controller(_health);
+            Controller status = new Controller(_health, _radEffectConstant);
 
             curent += TimeSpan.FromSeconds(1);
             status.Update(curent);
@@ -45,7 +48,7 @@ namespace HealthControllingTest
 
             status.RadSourceList.Add(new RadioactiveArea(3));
             Console.WriteLine("__2__3__");
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 22; i++)
             {
                 curent += TimeSpan.FromSeconds(1);
                 status.Update(curent);
@@ -54,7 +57,7 @@ namespace HealthControllingTest
             Console.WriteLine("New");
 
             _health = new Health(100);
-            status = new Controller(_health);
+            status = new Controller(_health, _radEffectConstant);
             curent = new DateTime();
             status.RadSourceList = new ArrayList();
 
@@ -84,7 +87,7 @@ namespace HealthControllingTest
             Console.WriteLine("New");
 
             _health = new Health(100);
-            status = new Controller(_health);
+            status = new Controller(_health, _radEffectConstant);
             curent = new DateTime();
             status.RadSourceList = new ArrayList();
 

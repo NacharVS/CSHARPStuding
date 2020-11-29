@@ -9,13 +9,15 @@ namespace HealthControlling.IsRadiation
 
         private readonly Health _health;
         private readonly Radiation _radiation = new Radiation(100);
-        private double _RateOfChange = 1;
+        private RadEffectConstant _constant;
+        private double LastRateOfChange = 1;
         private int _count = 0;
         public bool End { get; private set; }
 
-        public RadiationEffect(Health health)
+        public RadiationEffect(Health health, RadEffectConstant constant)
         {
             _health = health;
+            _constant = constant;
         }
 
         public void EffectUpdate(ArrayList Source)
@@ -44,47 +46,47 @@ namespace HealthControlling.IsRadiation
 
         private void UpdateRadiation(int value)
         {
-            if (value == 0) value = -(_radiation.Max * 5 / 100);
+            if (value == 0) value = -(_radiation.Max * _constant.PassiveRadiationExtraction/100);
             _radiation.ValueAdd(value);
         }
 
         private void UpdateHealth()
         {
-            _health.MaxSet((int)(_health.Max / _RateOfChange));
-            _health.ValueSet((int)(_health.Value / _RateOfChange));
-            _RateOfChange = 1;
-            if (_radiation.Value*100 / _radiation.Max < 25)
+            _health.MaxSet((int)(_health.Max / LastRateOfChange));
+            _health.ValueSet((int)(_health.Value / LastRateOfChange));
+            if (_radiation.Value*100 / _radiation.Max < _constant.LowLevel)
             {
                 _count = 0;
+                LastRateOfChange = 1;
                 ChangeLevelEvent?.Invoke("Normal");
             }
-            else if (_radiation.Value*100 / _radiation.Max < 50)
+            else if (_radiation.Value*100 / _radiation.Max < _constant.MediumLevel)
             {
-                _RateOfChange = 0.8;
-                _health.ValueSet((int)(_health.Value * _RateOfChange));
-                _health.MaxSet((int)(_health.Max * _RateOfChange));
+                LastRateOfChange = _constant.RateOfChangeLow;
+                _health.ValueSet((int)(_health.Value * _constant.RateOfChangeLow));
+                _health.MaxSet((int)(_health.Max * _constant.RateOfChangeLow));
                 ChangeLevelEvent?.Invoke("Low");
             }
-            else if (_radiation.Value*100 / _radiation.Max < 75)
+            else if (_radiation.Value*100 / _radiation.Max < _constant.HightLevel)
             {
-                _RateOfChange = 0.65;
-                _health.ValueSet((int)(_health.Value * _RateOfChange));
-                _health.MaxSet((int)(_health.Max * _RateOfChange));
+                LastRateOfChange = _constant.RateOfChangeMedium;
+                _health.ValueSet((int)(_health.Value * _constant.RateOfChangeMedium));
+                _health.MaxSet((int)(_health.Max * _constant.RateOfChangeMedium));
                 ChangeLevelEvent?.Invoke("Medium");
             }
-            else if (_radiation.Value*100 / _radiation.Max < 95)
+            else if (_radiation.Value*100 / _radiation.Max < _constant.DeadlyLevel)
             {
-                _RateOfChange = 0.5;
-                _health.ValueSet((int)(_health.Value * _RateOfChange));
-                _health.MaxSet((int)(_health.Max * _RateOfChange));
+                LastRateOfChange = _constant.RateOfChangeHight;
+                _health.ValueSet((int)(_health.Value * _constant.RateOfChangeHight));
+                _health.MaxSet((int)(_health.Max * _constant.RateOfChangeHight));
                 ChangeLevelEvent?.Invoke("Hight");
             }
             else
             {
-                _count += 1; 
-                _RateOfChange = 0.1;
-                _health.ValueSet((int)(_health.Value * _RateOfChange));
-                _health.MaxSet((int)(_health.Max * _RateOfChange));
+                _count += _constant.DeadlyCountIncrease;
+                LastRateOfChange = _constant.RateOfChangeDeadly;
+                _health.ValueSet((int)(_health.Value * _constant.RateOfChangeDeadly));
+                _health.MaxSet((int)(_health.Max * _constant.RateOfChangeDeadly));
                 _health.ValueRemove((int)(_health.Max  * _count / 100));
                 ChangeLevelEvent?.Invoke("Deadly");
             }

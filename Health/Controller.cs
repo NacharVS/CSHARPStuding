@@ -10,10 +10,12 @@ namespace HealthControlling
         /*Radiation:*/
         public ArrayList RadSourceList = new ArrayList();
         private RadiationEffect _radiationEffect;
+        private RadEffectConstant _radEffConstant;
 
-        public Controller(Health health)
+        public Controller(Health health, RadEffectConstant radEffectConstant)
         {
             _health = health;
+            _radEffConstant = radEffectConstant;
         }
         public void Update(DateTime dateTime)
         {
@@ -26,7 +28,7 @@ namespace HealthControlling
         {
             if (_radiationEffect == null)
             {
-                _radiationEffect = new RadiationEffect(_health);
+                _radiationEffect = new RadiationEffect(_health, _radEffConstant);
             }
 
             if (_radiationEffect.End)

@@ -6,6 +6,7 @@
 
         private int _max;
         private int _value;
+
         public Radiation(int max)
         {
             _max = max;
