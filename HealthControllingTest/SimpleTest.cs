@@ -32,6 +32,7 @@ namespace HealthControllingTest
             for (int i = 0; i < 150; i++)
             {
                 control.IntoxicatedUpdate();
+              
             }
 
             //dateTime += TimeSpan.FromSeconds(1);
