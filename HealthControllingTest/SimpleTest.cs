@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using HealthControlling;
 using HealthControlling.Intoxication;
+using HealthControlling.Buff;
 
 namespace HealthControllingTest
 {
@@ -19,21 +20,23 @@ namespace HealthControllingTest
         [Test]
         public void Execute()
         {
-            Controller control = new Controller(_health, _intoxication);
+            BuffHP buff = new BuffHP(_health);
             //Assert.IsTrue(_health.Max == 100);
-            _intoxication.Value += 75;
+            buff.Activate(30, 100);
+
             for (int i = 0; i < 150; i++)
             {
-                control.IntoxicatedUpdate();
+                //control.IntoxicatedUpdate();
+                buff.Update();
             }
 
-            _intoxication.Value += 70;
+            //_intoxication.Value += 70;
 
-            for (int i = 0; i < 150; i++)
-            {
-                control.IntoxicatedUpdate();
+            //for (int i = 0; i < 150; i++)
+            //{
+            //    control.IntoxicatedUpdate();
               
-            }
+            //}
 
             //dateTime += TimeSpan.FromSeconds(1);
             //Update(dateTime, EIntoxicationCondition.Low);
